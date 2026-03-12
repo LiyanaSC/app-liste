@@ -2,18 +2,29 @@
 
 <template>
   <div class="app-liste">
-    <h2>Bienvenue dans l'application Liste</h2>
-    <ListeView />
+    <Sidebar />
+    <ListResults />
   </div>
 </template>
 <script setup>
-import ListeView from './views/ListeView.vue'
+import Sidebar from './Layout/Sidebar.vue';
+import ListResults from './components/ListResults.vue';
+
+
+
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches // Vérifie si l'utilisateur préfère le mode sombre
+// Si l'utilisateur préfère le mode sombre, on applique le thème sombre, sinon on applique le thème clair
+document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light')
 </script>
 
 
 <style scoped>
 .app-liste {
-  width: 100%;
+  width: 90%;
+  border-radius: 30px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
 }
 .logo {
   height: 6em;
