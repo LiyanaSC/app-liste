@@ -1,12 +1,8 @@
 
 
 <template>
-  <div class="app">
-    <h1>Bienvenue dans l'application Liste</h1>
-    <p>Cette application sert de conteneur pour d'autres applications.</p>
-    <p>Utilisez le menu de navigation pour accéder aux différentes sections.</p>
-    <router-link to="/applications">Voir les applications</router-link>
-    <router-link to="/about">À propos</router-link>
+  <div class="app-liste">
+    <h2>Bienvenue dans l'application Liste</h2>
     <ListeView />
   </div>
 </template>
@@ -16,6 +12,9 @@ import ListeView from './views/ListeView.vue'
 
 
 <style scoped>
+.app-liste {
+  width: 100%;
+}
 .logo {
   height: 6em;
   padding: 1.5em;

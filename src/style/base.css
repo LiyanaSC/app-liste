@@ -1,0 +1,120 @@
+*{
+    /* je retire les marges et les espacements par défaut */
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+    /*je définis les parametre généraux du texte */
+    color: var(--color-text);
+    text-align: center;
+    text-decoration: none;
+    /* retire les puces */
+    list-style: none; 
+
+}
+body {
+    /* je définis la couleur de fond et la couleur du texte */
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-primary);
+    justify-content: center;
+    
+}
+/* style pour les boutons et input */
+.primary-button {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+
+
+}
+
+.primary-button:hover {
+  background-color: var(--color-secondary);
+}
+
+  /*style grisé pour les seconds boutons  */
+.secondary-button {
+  background-color: #535151;
+  color: white;
+  border: 1px solid var(--color-border);
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+
+}
+
+.secondary-button:hover {
+  background-color: #9ca3af;
+}
+/* style pour les boutons et input */
+.danger-button {
+  background-color: var(--color-error);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+
+
+}
+
+.danger-button:hover {
+opacity: 0.9;
+}
+.no-style-button{
+  background-color: transparent;
+  border: none;
+}
+
+.input-form{
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  background-color: var(--color-background) ;
+  color: var(--color-text);
+  font-weight: 500;
+  height: 40px;
+  border: 2px var(--color-muted) solid;
+
+}
+.input-maj{
+
+  border: none;
+  font-size: 1rem;
+  background-color: var(--color-background) ;
+  color: var(--color-text);
+  font-weight: 500;
+  height: 40px;
+  border-bottom: 2px var(--color-muted) solid;
+ 
+}
+.icon{
+  width: 40px;
+  height: 40px;
+}
+textarea {
+  resize: none;
+  font-family: var(--font-primary);
+}
+
+h2{
+  color:var(--color-secondary)
+}
+.erreur {
+  color: var(--color-error);
+  font-size: 0.8rem;
+  margin: 0 0 10px 0;
+}
+.low-opacity{
+  opacity:0.5
+}

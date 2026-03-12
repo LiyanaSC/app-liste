@@ -1,0 +1,43 @@
+/* j'importe les fonts depuis google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+/* Définition des variables de police */
+/* Ces variables peuvent être utilisées dans les fichiers CSS pour appliquer les polices */
+:root{
+   /* Fonts de l'application */
+   --font-primary: 'Inter', sans-serif;
+   --font-secondary: 'Roboto', sans-serif;
+
+   /* Couleurs de l'application */
+   --color-primary: rgb(111, 74, 230);
+   --color-secondary: rgb(132, 99, 212);
+   --color-valid: #4CAF8D;
+   --color-error: #e35d6a;
+   --background-low-opacity:#c1beef15;
+   --pink-color-background: rgba(248, 219, 243, 0.837);
+
+   /* Taille de police */
+   --font-size-small: 1rem; /* 14px */
+   --font-size-medium: 1.5rem; /* 16px */
+   --font-size-large: 2rem; /* 18px */
+   --font-size-xlarge: 3rem; /* 20px */
+
+   /* Taille des éléments */
+   --element-size-small: 30px;
+   --element-size-medium: 40px;
+   --element-size-large: 50px;
+   --element-size-xlarge: 60px;
+
+   /* Espacement */
+   --spacing-small: 10px; 
+   --spacing-medium: 20px;
+   --spacing-large: 30px;
+   --spacing-xlarge: 50px;
+
+   /* largeur écrans */
+   --screen-size-small: 480px;
+   --screen-size-medium: 768px;
+   --screen-size-large: 1024px;
+   --screen-size-xlarge: 1440px;
+}
