@@ -12,7 +12,7 @@ export default defineConfig({
  base: '/applist-dist/', // Base path pour les ressources (important pour le module federation)
   plugins: [
     vue(),// Active le support de Vue dans Vite
-    federation({
+   /*federation({
       // Nom du microfrontend appelé par le shell (doit être unique dans l’architecture)
       name: 'app-liste',
       // Le fichier généré qui contient les composants exposés pour le shell
@@ -26,7 +26,7 @@ export default defineConfig({
       },
       // Déclare les dépendances partagées (évite que chaque MFE charge sa propre copie de Vue)
       shared: ['vue']
-    })
+    })*/
   ],
   server: {
     // Port sur lequel l’app sera lancée en dev (`npm run dev`)
@@ -43,11 +43,6 @@ export default defineConfig({
     target: 'esnext',
     // Désactive la minification pour faciliter le debug (optionnel)
     minify: false,
-    cssCodeSplit: false,
-    rollupOptions: {
-      output: {
-        publicPath: '/applist-dist/'
-      }
-    }
+    cssCodeSplit: false
   }
 })
