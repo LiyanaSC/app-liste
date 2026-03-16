@@ -9,6 +9,7 @@ import federation from '@originjs/vite-plugin-federation'
 
 
 export default defineConfig({
+ base: '/applist-dist/', // Base path pour les ressources (important pour le module federation)
   plugins: [
     vue(),// Active le support de Vue dans Vite
     federation({
@@ -36,10 +37,17 @@ export default defineConfig({
     }
   },
   build: {
+    // Désactive le préchargement des modules (peut être nécessaire pour certains cas d'utilisation)
+    modulePreload: false,
     // Cible les navigateurs modernes (pour module federation, recommandé)
     target: 'esnext',
     // Désactive la minification pour faciliter le debug (optionnel)
     minify: false,
-    cssCodeSplit: false
+    cssCodeSplit: false,
+    rollupOptions: {
+      output: {
+        publicPath: '/applist-dist/'
+      }
+    }
   }
 })
