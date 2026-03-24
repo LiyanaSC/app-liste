@@ -21,7 +21,7 @@ export default defineConfig({
       // Le shell peut importer ces composants via le nom défini ici
       exposes: {
         // Clé = nom utilisé par le shell pour importer, valeur = chemin local vers le composant
-        './ListeView': './src/App.vue',
+        './ListeView': './src/mfe/ListeView.vue',
 
       },
       // Déclare les dépendances partagées (évite que chaque MFE charge sa propre copie de Vue)
@@ -43,6 +43,8 @@ export default defineConfig({
     target: 'esnext',
     // Désactive la minification pour faciliter le debug (optionnel)
     minify: false,
-    cssCodeSplit: false
+    cssCodeSplit: false,
+     
+    outDir: "/Users/linonliyana/Documents/GitHub/BTB_projet/applist-dist/"
   }
 })

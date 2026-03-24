@@ -5,13 +5,11 @@
 
     </nav>
 </template>
-
 <style scoped>
 .list-sidebar {
   min-height: 100vh;
-  min-width: 350px;
-  max-width: 500px;
-  width: 50%;
+
+  width: 30%;
 
   background-color: var(--deep-violet);
   display: flex;

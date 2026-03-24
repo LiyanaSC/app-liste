@@ -14,7 +14,7 @@
   padding-top: 1rem;
 
   background-color: var(--lither-lavender);
-  width: 100%;
+  width: 70%;
   min-height: 100vh;
 }
 
