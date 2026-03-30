@@ -1,5 +1,5 @@
 <template>
-    <div  class="choose-list-title-form" :style="{ backgroundColor: typeList.find(type => type.value === selectedType)?.color || 'white' }">
+    <div  class="choose-list-title-form" :style="{ backgroundColor: typeList.find(item => item.type === selectedType)?.color || 'white' }">
         <div class="form-header">
             <UpdateIcon />
             <h3 class="form-title">Créer une nouvelle liste ✨</h3>
@@ -26,18 +26,18 @@
                 <div class="type-select">
                     <div
                         class="type-option"
-                        v-for="type in typeList"
-                        :key="type.value"
-                        :class="{ selected: selectedType === type.value }"
-                        @click="selectedType = type.value"
+                        v-for="item in typeList"
+                        :key="item.type"
+                        :class="{ selected: selectedType === item.type }"
+                        @click="selectedType = item.type"
                     >
-                        <p class="type-name">{{ type.label }}</p>
-                        <img class="type-image" :src="type.image" alt="" />
+                        <p class="type-name">{{ item.label }}</p>
+                        <img class="type-image" :src="item.image" alt="" />
                     </div>
                 </div>
 
                  <p class="type-description">
-                    {{ typeList.find(type => type.value === selectedType)?.description }}
+                    {{ typeList.find(item => item.type === selectedType)?.description }}
                 </p>
              </div>
            
@@ -57,6 +57,7 @@
 </template>
 
 <script setup>
+
 import { ref } from 'vue'
 import typeList from '../../data/typeList.js'
 import UpdateIcon from '../icons/updateIcon.vue'
@@ -67,7 +68,7 @@ const selectedType = ref('classic')
 
 
 // emit vers parent
-const emit = defineEmits(['create'])
+const emit = defineEmits(['create', 'cancel'])
 
 // submit
 function handleSubmit() {
@@ -84,16 +85,25 @@ function handleSubmit() {
   selectedType.value = 'classic'
 }
 
+function handleCancel() {
+  emit('cancel')
+  // reset
+  title.value = ''
+  selectedType.value = 'classic'
+}
+
 </script>
 
 <style>
 .choose-list-title-form {
   display: flex;
   flex-direction: column;
+  min-width: 320px;
   width: 80%;
   padding: 30px 30px 30px 30px;
   border-radius: 10px;
   box-shadow:  0px 0px 10px rgba(255, 255, 255, 0.61);
+  margin-bottom: 20px;
 }
 
 .form-header {
@@ -102,11 +112,10 @@ function handleSubmit() {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  width: 90%;
   justify-content: flex-start;
 }
 .form-title {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--dark-blue);
 }
 .form-subtitle {

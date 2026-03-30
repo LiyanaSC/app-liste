@@ -24,6 +24,18 @@ import ListResults from '../components/ListResults.vue';
   align-self: center;
   margin-top: 50px;
   margin-bottom: 50px;
+  height: 90%;
+  overflow-y: scroll;
 
+
+}
+@media screen and (max-width: 768px) {
+  .liste-view {
+    flex-direction: column;
+    width: 95%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
 }
 </style>

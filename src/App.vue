@@ -24,6 +24,7 @@ document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'ligh
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100vh;
 
 }
 .logo {

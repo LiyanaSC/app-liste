@@ -1,34 +1,27 @@
 // tableau de types de listes disponibles
-import listClassic from '../assets/list-classic-not-complete.svg'
-import listDaily from '../assets/list-daily-not-complete.svg'
-import listAnalytics from '../assets/list-analytics-not-complete.svg'
-import imageAnalytics from '../assets/img-analytics.png'
-import imageClassic from '../assets/img-classic.png'
-import imageDaily from '../assets/img-daily.png'
-
 
 const typeList = [
   {
-    value: 'classic',
+    type: 'classic',
     label: 'Liste',
-    icon: listClassic,
-    image: imageClassic,
+    icon: new URL('../assets/list-classic-not-complete.svg', import.meta.url).href,
+    image: new URL('../assets/img-classic.png', import.meta.url).href,
     color: 'var(--light-pink)',
     description: 'Une liste basique: Vous notez ce que vous devez faire et vous cochez quand c’est terminé.'
   },
   {
-    value: 'analytics',
+    type: 'analytics',
     label: 'Analyse',
-    icon: listAnalytics,
-    image: imageAnalytics,
-    color: 'var(--light-lavender)',
+    icon: new URL('../assets/list-analytics-not-complete.svg', import.meta.url).href,
+    image: new URL('../assets/img-analytics.png', import.meta.url).href,
+    color: 'var(--light-beige)',
     description: 'Une liste pour analyser vos habitudes: Vous notez des choses et vous voyez à quelle fréquence elles se produisent.'
   },
   {
-    value: 'daily',
+    type: 'daily',
     label: 'Tâches',
-    icon: listDaily,
-    image: imageDaily,
+    icon: new URL('../assets/list-daily-not-complete.svg', import.meta.url).href,
+    image: new URL('../assets/img-daily.png', import.meta.url).href,
     color: 'var(--light-blue)',
     description: 'Une liste pour garder un oeil sur les tâches du quotidien, ou de la semaine, afin de ne plus les oublier.'
   }
