@@ -25,7 +25,7 @@ import ListResults from '../components/ListResults.vue';
   margin-top: 50px;
   margin-bottom: 50px;
   height: 90%;
-  overflow-y: scroll;
+
 
 
 }
@@ -35,6 +35,9 @@ import ListResults from '../components/ListResults.vue';
     width: 95%;
     margin-top: 20px;
     margin-bottom: 20px;
+    overflow: scroll;
+
+       
   }
   
 }

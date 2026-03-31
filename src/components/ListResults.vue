@@ -1,12 +1,18 @@
 <template>
     <div class="list-results">
-        <h2>Résultats de la recherche</h2>
-        <p>Aucun résultat trouvé. <span> </span></p>
+        <h3>{{ listStore.selectedList?.title || 'Aucune liste sélectionnée' }}</h3>
+        <form ></form>
 
     </div>
 </template>
 
 <script setup>
+import { computed } from 'vue' // Import de la fonction ref de Vue pour créer des variables réactives
+import { useListStore } from '../store/listStore' // Import du store Pinia pour gérer les listes
+const listStore = useListStore()
+
+
+
 </script>
 
 <style scoped>

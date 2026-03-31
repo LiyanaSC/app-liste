@@ -1,11 +1,16 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import '/Users/linonliyana/Documents/GitHub/BTB_projet/shell/src/style/variables.css'
 import '/Users/linonliyana/Documents/GitHub/BTB_projet/shell/src/style/theme.css'
 import '/Users/linonliyana/Documents/GitHub/BTB_projet/shell/src/style/base.css'
 import App from './App.vue'
 
+const app = createApp(App)
 
-createApp(App).mount('#app')
+
+app.use(createPinia())
+app.mount('#app')
+
 
 window.addEventListener('error', function (event) {
   console.error("Erreur JavaScript capturée :", event.message);

@@ -9,11 +9,18 @@
         </button>
           
         <!-- FORMULAIRE DE CRÉATION DE LISTE -->
-        <ChooseListTitle v-if="showForm" @create="handleCreate"  @cancel="handleCancel"/>
+        <ChooseListTitle v-if="showForm" @create="handleCreate"  @cancel="handleCancel" />
 
         <!-- LISTE DES TITRES DE LISTES EXISTANTES -->
-        <ListTitle v-for="(item, index) in listTitle" :key="index" :title="item.title" :type="item.type" :isComplete="item.isComplete"
-         @edit="handleEdit" @delete="handleDelete" />
+        <ListTitle v-for="(item, index) in listTitle" 
+        :key="index+item.title" 
+        :idtitle="index"
+        :title="item.title" 
+        :type="item.type" 
+        :isComplete="item.isComplete"
+        @edit="handleEdit"
+        @delete="handleDelete"
+        @select="handleSelectList" />
 
 
     </nav>
@@ -61,12 +68,13 @@ function handleCancel() {
   showForm.value = false
 }
 //récupère la création de liste
-function handleCreate(newList) {
+function handleCreate(newTitle) {
   // Ici, vous pouvez ajouter la nouvelle liste à votre état global ou local
-  listTitle.value.push(newList) // Ajoute la nouvelle liste à la liste des titres
+  console.log('Nouvelle liste créée :', newTitle) // Affiche le nouveau titre de la liste dans la console
+  listTitle.value.push(newTitle) // Ajoute la nouvelle liste à la liste des titres
   //je sauvegarde la nouvelle liste dans le localStorage
   const existingLists = JSON.parse(localStorage.getItem('lists')) || [] // Récupère les listes existantes du localStorage ou initialise un tableau vide
-  existingLists.push(newList) // Ajoute la nouvelle liste au tableau
+  existingLists.push(newTitle) // Ajoute la nouvelle liste au tableau
   localStorage.setItem('lists', JSON.stringify(existingLists)) // Sauvegarde le tableau mis à jour dans le localStorage
   showForm.value = false // Ferme le formulaire après la création
 } 
@@ -80,20 +88,21 @@ function handleDelete(title) {
   localStorage.setItem('lists', JSON.stringify(updatedLists))
 }
 
-function handleEdit(newTitle, oldTitle) {
+function handleEdit(newTitle, IdTitle) {
   // Logique pour éditer une liste
-  console.log('Éditer la liste:', newTitle, 'Ancien titre:', oldTitle)
   // Vous pouvez implémenter la logique d'édition ici, par exemple en affichant un formulaire d'édition ou en modifiant directement le titre dans la liste
   const existingLists = JSON.parse(localStorage.getItem('lists')) || []
-  const updatedLists = existingLists.map(item => { // Parcourt les listes existantes
-   //je supprime le titre de la liste à éditer et je le remplace par le nouveau titre
-    if (item.title === oldTitle) {//je cherche la liste à éditer en comparant les titres
-      return { ...item, title: newTitle }  // Si je trouve la liste à éditer, je retourne une nouvelle liste avec le titre mis à jour
+  const updatedLists = existingLists.map((item, index)  => { // Parcourt les listes existantes
+   //je supprime l'élément de la liste à éditer et je le remplace par le nouvel élément
+    if (index === IdTitle) {// Si je trouve le titre à éditer (en utilisant l'index IdTitle pour identifier la liste)
+      return { ...item, title: newTitle }  // je retourne une nouvelle liste avec le titre mis à jour
     }
     return item // Sinon, on retourne la liste inchangée
   })  
   localStorage.setItem('lists', JSON.stringify(updatedLists))
 } 
+
+
 </script>
 <style scoped>
 .list-sidebar {
@@ -109,6 +118,7 @@ function handleEdit(newTitle, oldTitle) {
   overflow-y: scroll;
   z-index: 1;
   align-items: center;
+  overflow: scroll;
 }
 
 h2 {

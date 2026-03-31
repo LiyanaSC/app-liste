@@ -77,7 +77,8 @@ function handleSubmit() {
   emit('create', {
     title: title.value,
     type: selectedType.value,
-    isComplete: false
+    isComplete: false,
+    items: []
   })
 
   // reset

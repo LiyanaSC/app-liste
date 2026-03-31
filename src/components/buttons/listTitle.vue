@@ -1,9 +1,9 @@
 <template>
-  <button class="list-title-button" :style="{ background: colorType }">
+  <button class="list-title-button" :style="{ background: colorType }" @click="SelectList"> <!-- Émet un événement de sélection avec le titre de la liste -->
     <div class="list-title-content">
         <img class="icon-list" :src="imageSrc" alt="liste">
-        <p class="button-text" v-if="!isEditing"  >{{ title }}</p>
-        <input class="input-edit" type="text" v-model="newTitle" v-else /> <!-- Champ de saisie pour l'édition du titre, caché par défaut -->
+        <p class="button-text" v-if="!isEditing"  >{{ newTitle }}</p>
+        <input class="input-edit" type="text" v-model="newTitle" v-else @keyup.enter="handleEdit"/> <!-- Champ de saisie pour l'édition du titre, caché par défaut -->
     </div>
 
 
@@ -23,7 +23,10 @@
 <script setup>
 import { defineProps, computed, ref } from 'vue'
 import typeList from '../../data/typeList';
- 
+import { useListStore } from '../../store/listStore'; 
+
+const listStore = useListStore();
+
 //--------------------------Base du template-------------------------
 const pencil = new URL('../../assets/pencil-dark.svg', import.meta.url).href
 const trash = new URL('../../assets/trash-dark.svg', import.meta.url).href
@@ -34,6 +37,10 @@ const props = defineProps({
   title: {
     type: String,
     required: true,
+      },
+  idtitle: {
+        type: Number,
+        required: true
       },
   isComplete: {
     type: Boolean,
@@ -65,11 +72,14 @@ const isEditing = ref(false) // Variable réactive pour contrôler le mode édit
 const emit = defineEmits(['edit', 'delete'])
 
 function handleEdit() {
-  emit('edit', newTitle.value, props.title) // Émet un événement d'édition avec le nouveau titre de la liste
+  emit('edit', newTitle.value, props.idtitle) // Émet un événement d'édition avec le nouveau titre de la liste
   isEditing.value = false // Désactive le mode édition
 }
 function handleDelete() {
   emit('delete', title.value) // Émet un événement de suppression avec le titre de la liste
+}
+function SelectList() {
+  listStore.selectList(props.idtitle) // Appelle la méthode selectList du store avec l'ID de la liste sélectionnées
 }
 
 </script>
