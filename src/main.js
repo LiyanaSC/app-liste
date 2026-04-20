@@ -6,9 +6,9 @@ import '/Users/linonliyana/Documents/GitHub/BTB_projet/shell/src/style/base.css'
 import App from './App.vue'
 
 const app = createApp(App)
+const store = createPinia()
 
-
-app.use(createPinia())
+app.use(store)
 app.mount('#app')
 
 

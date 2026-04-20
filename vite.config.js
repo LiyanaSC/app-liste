@@ -25,7 +25,14 @@ export default defineConfig({
 
       },
       // Déclare les dépendances partagées (évite que chaque MFE charge sa propre copie de Vue)
-      shared: ['vue']
+       shared: {
+        vue: { singleton: true, requiredVersion: '3.5.13' },
+
+        // IMPORTANT
+        pinia: {
+          singleton: false, // ✅ permet isolation
+        },
+      }
     })
   ],
   server: {

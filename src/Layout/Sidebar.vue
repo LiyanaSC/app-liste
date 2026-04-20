@@ -118,8 +118,8 @@ function handleEdit(newTitle, IdTitle) {
   overflow-y: scroll;
   z-index: 1;
   align-items: center;
-  overflow: scroll;
-}
+  overflow-y: hidden;
+  overflow: auto;}
 
 h2 {
   font-size: 1.5rem;

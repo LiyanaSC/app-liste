@@ -19,12 +19,13 @@ import ListResults from '../components/ListResults.vue';
   align-items: center;
   justify-content: center;
   border-radius: 30px;
-  overflow: hidden;
   justify-self: center;
   align-self: center;
   margin-top: 50px;
   margin-bottom: 50px;
   height: 90%;
+  overflow-y: hidden;
+  overflow: auto;
 
 
 
