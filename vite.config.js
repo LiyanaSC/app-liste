@@ -21,7 +21,7 @@ export default defineConfig({
       // Le shell peut importer ces composants via le nom défini ici
       exposes: {
         // Clé = nom utilisé par le shell pour importer, valeur = chemin local vers le composant
-        './ListeView': './src/mfe/ListeView.vue',
+       './mount': './src/main.js'
 
       },
       // Déclare les dépendances partagées (évite que chaque MFE charge sa propre copie de Vue)
