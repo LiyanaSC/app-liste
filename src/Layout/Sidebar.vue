@@ -1,6 +1,7 @@
 <template>
     <nav class="list-sidebar">
-        <h2 class="sidebar-title">Mes Listes</h2>
+        <h2 > ✨ Mes Listes ✨ </h2>
+        <StarBar/>
 
         <!-- BOUTON POUR AJOUTER UNE NOUVELLE LISTE -->
         <button v-if="!showForm" class="add-list-button" @click="showForm = true"> 
@@ -20,7 +21,7 @@
         :isComplete="item.isComplete"
         @edit="handleEdit"
         @delete="handleDelete"
-        @select="handleSelectList" />
+        />
 
 
     </nav>
@@ -31,7 +32,7 @@ import plusBlack from '../assets/plus-black.svg'
 import { ref, computed, onMounted, onUnmounted } from 'vue' // Import des fonctions Vue nécessaires
 import ChooseListTitle from '../components/buttons/chooseListTitle.vue' // Import du composant de choix de titre de liste
 import ListTitle from '../components/buttons/listTitle.vue' // Import du composant de titre de liste (non utilisé dans ce code, mais peut être utilisé pour afficher les titres des listes existantes)
-
+import StarBar from '../components/style/starBar.vue'
 // -------------------------GESTION DU THÈME (SOMBRE/CLAIR)-------------------------
 const isDark = ref(false) // Variable réactive pour stocker le thème (false = clair, true = sombre)
 
@@ -112,8 +113,6 @@ function handleEdit(newTitle, IdTitle) {
   background-color: var(--deep-violet);
   display: flex;
   flex-direction: column;
-  padding-top: 1rem;
-  transition: width 0.3s ease;
   overflow: hidden;
   overflow-y: scroll;
   z-index: 1;
@@ -122,6 +121,8 @@ function handleEdit(newTitle, IdTitle) {
   overflow: auto;}
 
 h2 {
+  margin-top: 20px;
+  margin-bottom: 0;
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--lither-lavender);
@@ -155,10 +156,13 @@ h2 {
   font-size: 1.5rem;
   color:var(--color-text-BW)
 }
+
+
 @media screen and (max-width: 768px) {
 .list-sidebar{
   width: 100%;
 }
   
 }
+
 </style>

@@ -24,6 +24,8 @@ import ListResults from '../components/ListResults.vue';
   margin-top: 50px;
   margin-bottom: 50px;
   height: 90%;
+  border-radius: 20px;
+  overflow: hidden;
 
 
 
