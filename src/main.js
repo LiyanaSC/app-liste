@@ -33,7 +33,8 @@ export function mount(el) {
   // 🔥 créer un container interne (évite d’écraser le shell)
   const container = document.createElement('div')
   container.style.width = '100%'
-  container.style.height = '100%'
+  container.style.minHeight = '0'
+  container.style.flex = '1'
 
   el.appendChild(container)
 

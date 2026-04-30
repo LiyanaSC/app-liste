@@ -13,6 +13,7 @@ import ListResults from '../components/ListResults.vue';
 
 <style scoped>
 .liste-view {
+  position: relative;
   width: 90%;
   display: flex;
   flex-direction: row;

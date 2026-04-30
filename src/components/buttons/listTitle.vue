@@ -10,7 +10,7 @@
     <!--Icon de suppression et de modification-->
     <div v-if="!isEditing" class="action-icons">
       <img class="icon-edit" :src="pencil" alt="modifier" @click="isEditing = true"> <!-- Icone de modification, qui active le mode édition -->
-      <img class="icon-edit" :src="trash" alt="supprimer" @click="handleDelete">  
+      <img class="icon-edit" :src="trash" alt="supprimer" @click="listStore.deleteList(listId)"> <!-- Icone de suppression, qui appelle la fonction de suppression du store avec l'ID de la liste -->  
     </div>
 
     <div v-else class="action-icons">
@@ -38,9 +38,9 @@ const props = defineProps({
     type: String,
     required: true,
       },
-  idtitle: {
-        type: Number,
-        required: true
+  listId: {
+    type: [String, Number],
+    required: true
       },
   isComplete: {
     type: Boolean,

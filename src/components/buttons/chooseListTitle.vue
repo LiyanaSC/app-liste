@@ -1,26 +1,26 @@
 <template>
-    <div  class="choose-list-title-form" :style="{ backgroundColor: typeList.find(item => item.type === selectedType)?.color || 'white' }">
+    <div  class="choose-list-title-form" :style="{ backgroundColor: typeList[0].color || 'white' }">
         <div class="form-header">
             <UpdateIcon />
             <h3 class="form-title">Créer une nouvelle liste ✨</h3>
         </div>
         <p class="form-subtitle">Donnez un nom à votre liste pour mieux vous organiser ✨</p>
 
-        <form @submit.prevent="handleSubmit">
+        <form @submit.prevent="listStore.createList()">
 
             <!-- Input pour le titre -->
             <div class="input-group">
                 <label for="title">Nom de la liste</label>
                 <input
                     class="title-input"
-                    v-model="title"
+                    v-model="listStore.title"
                     type="text"
                     placeholder="Ma super liste"
                 />
             </div>
 
-            <!-- Choix du type -->
-            <div class="input-group">
+            <!-- Choix du type visible unique s'il y a plusieurs types 
+            <div v-if="typeList.length > 1" class="input-group">
                 <p for="type">Type de liste</p>
 
                 <div class="type-select">
@@ -35,14 +35,15 @@
                         <img class="type-image" :src="item.image" alt="" />
                     </div>
                 </div>
-
+                
                  <p class="type-description">
                     {{ typeList.find(item => item.type === selectedType)?.description }}
                 </p>
-             </div>
+             </div> 
+             -->
            
              <div class="action-buttons">
-                <button class="secondary-button" type="button" @click="handleCancel">
+                <button class="secondary-button" type="button" @click="closeForm()">
                     Annuler
                 </button>
                 <!-- Submit -->
@@ -58,39 +59,19 @@
 
 <script setup>
 
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import typeList from '../../data/typeList.js'
 import UpdateIcon from '../icons/updateIcon.vue'
+import { useListStore } from '../../store/listStore.js' // Import du store Pinia pour gérer les listes
 
-// état du formulaire
-const title = ref('')
-const selectedType = ref('classic')
+const listStore = useListStore() // Utilisation du store pour les listes avec Pinia
 
+//Fermeture du formulaire de création de liste
 
-// emit vers parent
-const emit = defineEmits(['create', 'cancel'])
-
-// submit
-function handleSubmit() {
-  if (!title.value.trim()) return
-
-  emit('create', {
-    title: title.value,
-    type: selectedType.value,
-    isComplete: false,
-    items: []
-  })
-
-  // reset
-  title.value = ''
-  selectedType.value = 'classic'
-}
-
-function handleCancel() {
-  emit('cancel')
-  // reset
-  title.value = ''
-  selectedType.value = 'classic'
+const closeForm = () => {
+  listStore.title = ''
+  listStore.type = 'classic'
+  listStore.creatingList = false // Ferme le formulaire de création de liste
 }
 
 </script>

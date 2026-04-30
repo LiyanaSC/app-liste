@@ -1,24 +1,25 @@
 <template>
     <nav class="list-sidebar">
-        <h2 > ✨ Mes Listes ✨ </h2>
+        <h2 >  Mes Listes  </h2>
         <StarBar/>
 
         <!-- BOUTON POUR AJOUTER UNE NOUVELLE LISTE -->
-        <button v-if="!showForm" class="add-list-button" @click="showForm = true"> 
+        <button v-if="listStore.creatingList === false" class="add-list-button" @click="listStore.creatingList = true"> 
           <img class="icon-plus" :src="isDark ? plusWhite : plusBlack" alt="ajouter une liste">
           <p class="button-text">Nouvelle Liste</p>
         </button>
           
         <!-- FORMULAIRE DE CRÉATION DE LISTE -->
-        <ChooseListTitle v-if="showForm" @create="handleCreate"  @cancel="handleCancel" />
+        <ChooseListTitle v-else />
 
         <!-- LISTE DES TITRES DE LISTES EXISTANTES -->
-        <ListTitle v-for="(item, index) in listTitle" 
-        :key="index+item.title" 
-        :idtitle="index"
+        <ListTitle v-for="(item, index) in listStore.lists" 
+        :key="item.id" 
+        :listId="item.id"
         :title="item.title" 
         :type="item.type" 
         :isComplete="item.isComplete"
+        @click="listStore.selectList(item.id)"
         @edit="handleEdit"
         @delete="handleDelete"
         />
@@ -33,6 +34,8 @@ import { ref, computed, onMounted, onUnmounted } from 'vue' // Import des foncti
 import ChooseListTitle from '../components/buttons/chooseListTitle.vue' // Import du composant de choix de titre de liste
 import ListTitle from '../components/buttons/listTitle.vue' // Import du composant de titre de liste (non utilisé dans ce code, mais peut être utilisé pour afficher les titres des listes existantes)
 import StarBar from '../components/style/starBar.vue'
+import { useListStore } from '../store/listStore.js' // Import du store Pinia pour gérer les listes
+
 // -------------------------GESTION DU THÈME (SOMBRE/CLAIR)-------------------------
 const isDark = ref(false) // Variable réactive pour stocker le thème (false = clair, true = sombre)
 
@@ -55,38 +58,25 @@ onMounted(() => { // Exécuté quand le composant est monté
 })
 
 //--------------------------GESTION DE LA CRÉATION DE LISTE-------------------------
+const listStore = useListStore() // Utilisation du store pour accéder aux données et fonctions
+
 const showForm = ref(false) // Variable réactive pour contrôler l'affichage du formulaire 
-const listTitle = ref([]) // Variable réactive pour stocker les titres des listes existantes
+const existingLists = listStore.lists // Variable réactive pour stocker les titres des listes existantes
 
 // Récupère les listes du localStorage au démarrage
 onMounted(() => {
-  const existingLists = JSON.parse(localStorage.getItem('lists')) || []
-  listTitle.value = existingLists
+  console.log("listTitle", existingLists.value)
 })
 
-//récupère l'annulation
-function handleCancel() {
-  showForm.value = false
-}
-//récupère la création de liste
-function handleCreate(newTitle) {
-  // Ici, vous pouvez ajouter la nouvelle liste à votre état global ou local
-  console.log('Nouvelle liste créée :', newTitle) // Affiche le nouveau titre de la liste dans la console
-  listTitle.value.push(newTitle) // Ajoute la nouvelle liste à la liste des titres
-  //je sauvegarde la nouvelle liste dans le localStorage
-  const existingLists = JSON.parse(localStorage.getItem('lists')) || [] // Récupère les listes existantes du localStorage ou initialise un tableau vide
-  existingLists.push(newTitle) // Ajoute la nouvelle liste au tableau
-  localStorage.setItem('lists', JSON.stringify(existingLists)) // Sauvegarde le tableau mis à jour dans le localStorage
-  showForm.value = false // Ferme le formulaire après la création
-} 
+
 
 //--------------------------GESTION DE L'ÉDITION ET DE LA SUPPRESSION DE LISTE-------------------------
 function handleDelete(title) {
-  // Logique pour supprimer une liste
-  listTitle.value = listTitle.value.filter(item => item.title !== title)
-  const existingLists = JSON.parse(localStorage.getItem('lists')) || []
-  const updatedLists = existingLists.filter(item => item.title !== title)
-  localStorage.setItem('lists', JSON.stringify(updatedLists))
+    // Logique pour supprimer une liste
+    listTitle.value = listTitle.value.filter(item => item.title !== title)
+    const existingLists = JSON.parse(localStorage.getItem('lists')) || []
+    const updatedLists = existingLists.filter(item => item.title !== title)
+    localStorage.setItem('lists', JSON.stringify(updatedLists))
 }
 
 function handleEdit(newTitle, IdTitle) {
@@ -154,7 +144,7 @@ h2 {
 .button-text {
   margin-left: 10px;
   font-size: 1.5rem;
-  color:var(--color-text-BW)
+  color:white
 }
 
 
