@@ -42,8 +42,20 @@ export const useListStore = defineStore('list', () => {
          showListResults.value = true// Affiche les résultats de la liste sélectionnée (pour les mobiles)
           console.log('showListResults après sélection :', showListResults.value)
     }
+    //MODIFIE le titre d'une liste dans le tableau de listes en utilisant son id
+    function editListTitle(key, newTitle) {
+        event.stopPropagation() // Empêche la propagation de l'événement de clic pour éviter de sélectionner la liste avant de la supprimer
+        const list = lists.value.find(list => list.id === key)
+        if (list) {
+            list.title = newTitle
+            localStorage.setItem('lists', JSON.stringify(lists.value))
+
+        }
+    }
+
     //SUPPRIME UNE LISTE du tableau de listes en utilisant son id
     function deleteList(key) {
+        event.stopPropagation() // Empêche la propagation de l'événement de clic pour éviter de sélectionner la liste avant de la supprimer
         console.log("hello",key)
         const updatedLists = lists.value.filter(item => item.id !== key)// Filtre les listes pour exclure celle avec l'ID spécifié
         lists.value = updatedLists // Met à jour la liste des listes dans le localStorage
@@ -98,6 +110,7 @@ export const useListStore = defineStore('list', () => {
         selectedList,
         addItemToSelectedList,
         toggleItemCompletion,
+        editListTitle,
         deleteList
     }       
 })

@@ -65,34 +65,9 @@ const existingLists = listStore.lists // Variable réactive pour stocker les tit
 
 // Récupère les listes du localStorage au démarrage
 onMounted(() => {
-  console.log("listTitle", existingLists.value)
+const username = localStorage.getItem('userNickname') || 'ça ne fonctionne pas' // Récupère le nom d'utilisateur depuis le localStorage, ou utilise une valeur par défaut si elle n'existe pas
+console.log('Nom d\'utilisateur récupéré :', username) // Affiche le nom d'utilisateur dans la console pour vérification
 })
-
-
-
-//--------------------------GESTION DE L'ÉDITION ET DE LA SUPPRESSION DE LISTE-------------------------
-function handleDelete(title) {
-    // Logique pour supprimer une liste
-    listTitle.value = listTitle.value.filter(item => item.title !== title)
-    const existingLists = JSON.parse(localStorage.getItem('lists')) || []
-    const updatedLists = existingLists.filter(item => item.title !== title)
-    localStorage.setItem('lists', JSON.stringify(updatedLists))
-}
-
-function handleEdit(newTitle, IdTitle) {
-  // Logique pour éditer une liste
-  // Vous pouvez implémenter la logique d'édition ici, par exemple en affichant un formulaire d'édition ou en modifiant directement le titre dans la liste
-  const existingLists = JSON.parse(localStorage.getItem('lists')) || []
-  const updatedLists = existingLists.map((item, index)  => { // Parcourt les listes existantes
-   //je supprime l'élément de la liste à éditer et je le remplace par le nouvel élément
-    if (index === IdTitle) {// Si je trouve le titre à éditer (en utilisant l'index IdTitle pour identifier la liste)
-      return { ...item, title: newTitle }  // je retourne une nouvelle liste avec le titre mis à jour
-    }
-    return item // Sinon, on retourne la liste inchangée
-  })  
-  localStorage.setItem('lists', JSON.stringify(updatedLists))
-} 
-
 
 </script>
 <style scoped>

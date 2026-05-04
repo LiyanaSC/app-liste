@@ -3,19 +3,19 @@
     <div class="list-title-content">
         <img class="icon-list" :src="imageSrc" alt="liste">
         <p class="button-text" v-if="!isEditing"  >{{ newTitle }}</p>
-        <input class="input-edit" type="text" v-model="newTitle" v-else @keyup.enter="handleEdit"/> <!-- Champ de saisie pour l'édition du titre, caché par défaut -->
+        <input class="input-edit" type="text" v-model="newTitle" v-else @keyup.enter="listStore.editListTitle(listId, newTitle); closeEditMode()" @click="stopPropagation()"/> <!-- Champ de saisie pour l'édition du titre, caché par défaut -->
     </div>
 
 
     <!--Icon de suppression et de modification-->
     <div v-if="!isEditing" class="action-icons">
-      <img class="icon-edit" :src="pencil" alt="modifier" @click="isEditing = true"> <!-- Icone de modification, qui active le mode édition -->
+      <img class="icon-edit" :src="pencil" alt="modifier" @click="updatemode"> <!-- Icone de modification, qui active le mode édition -->
       <img class="icon-edit" :src="trash" alt="supprimer" @click="listStore.deleteList(listId)"> <!-- Icone de suppression, qui appelle la fonction de suppression du store avec l'ID de la liste -->  
     </div>
-
+    <!-- mode édition -->
     <div v-else class="action-icons">
-        <img class="icon-edit" :src="check" alt="valider" @click="handleEdit"> <!-- Icone de validation, qui valide les modifications -->
-        <img class="icon-edit" :src="cross" alt="annuler" @click="isEditing = false"> <!-- Icone d'annulation, qui désactive le mode édition -->
+        <img class="icon-edit" :src="check" alt="valider" @click="listStore.editListTitle(listId, newTitle); closeEditMode()"> <!-- Icone de validation, qui valide les modifications -->
+        <img class="icon-edit" :src="cross" alt="annuler" @click="endUpdatemode"> <!-- Icone d'annulation, qui désactive le mode édition -->
     </div>
   </button>
 </template>
@@ -67,16 +67,24 @@ const colorType = computed(() => {
 const title = computed(() => props.title) // Computed pour le titre de la liste
 const newTitle = ref(props.title) // Variable réactive pour stocker le nouveau titre lors de l'édition
 const isEditing = ref(false) // Variable réactive pour contrôler le mode édition
-
-// Emit pour les actions d'édition et de suppression
-const emit = defineEmits(['edit', 'delete'])
-
-function handleEdit() {
-  emit('edit', newTitle.value, props.idtitle) // Émet un événement d'édition avec le nouveau titre de la liste
-  isEditing.value = false // Désactive le mode édition
+const stopPropagation = () => {
+  event.stopPropagation() // Empêche la propagation de l'événement de clic pour éviter de sélectionner la liste avant de la supprimer
 }
-function handleDelete() {
-  emit('delete', title.value) // Émet un événement de suppression avec le titre de la liste
+// Emit pour les actions d'édition et de suppression
+
+const updatemode = () => {
+  event.stopPropagation() // Empêche la propagation de l'événement de clic pour éviter de sélectionner la liste avant de la supprimer
+  isEditing.value = true // Bascule le mode édition
+}
+
+const endUpdatemode = () => {
+  event.stopPropagation() // Empêche la propagation de l'événement de clic pour éviter de sélectionner la liste avant de la supprimer
+  isEditing.value = false // Désactive le mode édition
+  newTitle.value = props.title // Réinitialise le titre à l'original en cas d'annulation
+}
+const closeEditMode = () => {
+  event.stopPropagation() // Empêche la propagation de l'événement de clic pour éviter de sélectionner la liste avant de la supprimer
+  isEditing.value = false // Désactive le mode édition
 }
 function SelectList() {
   listStore.selectList(props.idtitle) // Appelle la méthode selectList du store avec l'ID de la liste sélectionnées

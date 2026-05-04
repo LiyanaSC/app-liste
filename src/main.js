@@ -17,7 +17,6 @@ function createMyApp(Component, el) {
   app.use(pinia)
 
   app.mount(el) // ✅ el doit être un élément DOM (ref)
-  console.log("App montée sur", el)
 }
 
 // 🔥 MODE MFE → appelé par le shell

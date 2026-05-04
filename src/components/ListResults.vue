@@ -1,5 +1,5 @@
 <template>
-    <div :class="isMobile ? 'list-results-mobile' : 'list-results'" v-if="isMobile ? listStore.showListResults  : !listStore.showListResults ">
+    <div :class="isMobile ? 'list-results-mobile' : 'list-results'" v-if="isMobile ? listStore.showListResults  : isMobile === false">
         <div v-if="isMobile" class="back-arrow-box"><img :src="arrowLeft" alt="Retour" class="back-arrow" @click="listStore.showListResults = false"/></div>
         <h3 class="list-results-title">{{ listStore.selectedList?.title || 'Aucune liste sélectionnée' }}</h3>
         <StarBar/>
@@ -43,6 +43,7 @@ import { useIsMobile } from '../composables/useIsMobile.js'
 const { isMobile } = useIsMobile() 
 const listStore = useListStore()
 
+
 const showListResults = ref(false) // Variable réactive pour contrôler l'affichage des résultats de la liste (utilisée pour les mobiles)
 
 const entry = ref('')
@@ -53,6 +54,7 @@ const addItem = () => {
     entry.value = '' // Réinitialise le champ de saisie après l'ajout
   }
 }
+
 
 
 </script>
