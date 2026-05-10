@@ -14,14 +14,12 @@
 
         <!-- LISTE DES TITRES DE LISTES EXISTANTES -->
         <ListTitle v-for="(item, index) in listStore.lists" 
-        :key="item.id" 
-        :listId="item.id"
+        :key="item._id" 
+        :listId="item._id"
         :title="item.title" 
         :type="item.type" 
         :isComplete="item.isComplete"
-        @click="listStore.selectList(item.id)"
-        @edit="handleEdit"
-        @delete="handleDelete"
+        @click="listStore.selectList(item._id)"
         />
 
 
@@ -47,6 +45,7 @@ onMounted(() => { // Exécuté quand le composant est monté
 
   const handler = (e) => { // Fonction appelée quand le thème change
     isDark.value = e.matches // Met à jour la valeur en fonction du nouveau thème
+
   }
 
   mediaQuery.addEventListener('change', handler) // Écoute les changements du thème système
@@ -65,7 +64,8 @@ const existingLists = listStore.lists // Variable réactive pour stocker les tit
 
 // Récupère les listes du localStorage au démarrage
 onMounted(() => {
-const username = localStorage.getItem('userNickname') || 'ça ne fonctionne pas' // Récupère le nom d'utilisateur depuis le localStorage, ou utilise une valeur par défaut si elle n'existe pas
+  listStore.initLists()
+const username = localStorage.getItem('userNickname') || 'ça ne fonctionne pas en dev' // Récupère le nom d'utilisateur depuis le localStorage, ou utilise une valeur par défaut si elle n'existe pas
 console.log('Nom d\'utilisateur récupéré :', username) // Affiche le nom d'utilisateur dans la console pour vérification
 })
 

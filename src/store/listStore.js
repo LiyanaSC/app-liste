@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import * as listApi from '../api/list.api.js' // Importation de l'API pour les listes (à implémenter)
+
 
 export const useListStore = defineStore('list', () => {
     // Variables réactives
@@ -8,90 +10,125 @@ export const useListStore = defineStore('list', () => {
     // Variable pour stocker le type de liste, initialisée à 'classic'
     const type = ref('classic') 
     // RECUPERE les listes du localStorage ou initialise un tableau vide si aucune liste n'est trouvée
-    const lists = ref(localStorage.getItem('lists') ? JSON.parse(localStorage.getItem('lists')) : []) 
+    const lists = ref([]) 
      // Variable réactive pour STOCKER LA LISTE SELECTIONNEE, initialisée à null
     const selectedList = ref(null) 
     const creatingList = ref(false) // Variable pour gérer l'état de création d'une liste
     //variable qui montre ou cache les résultats de la liste (pour les mobiles)
     const showListResults = ref(false)
 
-    // CREER une liste de listes, chaque liste ayant un id, un titre, un type et un tableau d'items
-    function createList() {
+//------------- récupérer les listes depuis le backend -----------------------------
+    async function initLists() {
+        //je créer une variable pour y ajouter un token de test A SUPPRIMER LORS DE L'IMPLEMENTATION DE L'AUTHENTIFICATION
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWFhZGY0ZmViMGY1NDk4MTkzOGEwOWYiLCJpYXQiOjE3Nzc5MTQzNjcsImV4cCI6MTc4MDUwNjM2N30.of5o_RowtQv0k34ePZmiQyyHYbAr8_lFis20IvVhv4g'
+        localStorage.setItem('token', token) // Stocke le token dans le localStorage pour les requêtes API
+        try {
+            const res = await listApi.getLists()
+            lists.value = res.data || [] // Met à jour les listes avec les données récupérées du backend, ou un tableau vide si aucune donnée n'est trouvée
+            console.log(lists.value)
+        } catch (err) {
+            console.warn('API down → fallback local', err)
+        }
+    }
+
+//------------- CREER une liste --------------------------------------------------
+    async function createList() {
         if (!title.value.trim()) return // Vérifie que le titre n'est pas vide ou composé uniquement d'espaces
         const newList = {
-            id: Date.now(), // En attendant l'envoie au backend, on utilise l'horodatage comme ID unique
             title: title.value,
             type: type.value,
             items: []
         }
-        lists.value.push(newList)
-        localStorage.setItem('lists', JSON.stringify(lists.value))
+        try {
+            const res = await listApi.createList(newList)  
+                // Met à jour la nouvelle liste avec l'ID retourné par le backend
+                newList.id = res.data._id
+                console.log(newList, res.data)
+                lists.value.push(newList)
+
+        } catch (err) {
+            console.warn('API down → fallback local', err)
+        }
           // reset
         title.value = ''
         type.value = 'classic'
         selectedList.value = newList // Sélectionne automatiquement la nouvelle liste créée 
         creatingList.value = false // Ferme le formulaire de création de liste
         showListResults.value = true // Affiche les résultats de la liste sélectionnée (pour les mobiles)
-        console.log('creation a true? :', creatingList.value)       
-        console.log('Nouvelle liste créée :', newList)
     }
  
-    //fonction pour SELECTIONNE UNE LISTE par le biais de son id parmis le tableau de listes
-    function selectList(key) {
-         selectedList.value = lists.value.find(list => list.id === key) || null
+//------------- SELECTIONNER UNE LISTE par le biais de son id parmis le tableau de listes
+    async function selectList(key) {
+         selectedList.value = lists.value.find(list => list._id === key) || null
          showListResults.value = true// Affiche les résultats de la liste sélectionnée (pour les mobiles)
           console.log('showListResults après sélection :', showListResults.value)
     }
-    //MODIFIE le titre d'une liste dans le tableau de listes en utilisant son id
-    function editListTitle(key, newTitle) {
+//------------MODIFIER le titre d'une liste dans le tableau de listes en utilisant son id
+    async function editListTitle(key, newTitle) {
         event.stopPropagation() // Empêche la propagation de l'événement de clic pour éviter de sélectionner la liste avant de la supprimer
-        const list = lists.value.find(list => list.id === key)
+        const list = lists.value.find(list => list._id === key)
         if (list) {
             list.title = newTitle
-            localStorage.setItem('lists', JSON.stringify(lists.value))
-
+             try {
+            const res = await listApi.updateList(list._id, { title: newTitle })
+            console.log('Titre de la liste mis à jour avec succès :', res.data)  
+            } catch (err) {
+                console.warn('API down → fallback local', err)
+            }
         }
     }
 
     //SUPPRIME UNE LISTE du tableau de listes en utilisant son id
-    function deleteList(key) {
+    async function deleteList(key) {
         event.stopPropagation() // Empêche la propagation de l'événement de clic pour éviter de sélectionner la liste avant de la supprimer
-        console.log("hello",key)
-        const updatedLists = lists.value.filter(item => item.id !== key)// Filtre les listes pour exclure celle avec l'ID spécifié
+        const updatedLists = lists.value.filter(item => item._id !== key)// Filtre les listes pour exclure celle avec l'ID spécifié
         lists.value = updatedLists // Met à jour la liste des listes dans le localStorage
-        localStorage.setItem('lists', JSON.stringify(updatedLists))// Met à jour le localStorage avec la nouvelle liste de listes
+         try {
+            const res = await listApi.deleteList(key)
+            console.log('Liste supprimée avec succès :', res.message)  
+            } catch (err) {
+                console.warn('API down → fallback local', err)
+            }
+
         if (selectedList.value && selectedList.value.id === key) {// Vérifie si la liste supprimée est actuellement sélectionnée
             selectedList.value = null // Si la liste supprimée était la liste sélectionnée, réinitialise la sélection
             showListResults.value = false // Masque les résultats de la liste (pour les mobiles)
         }
-        
     }
 
     //AJOUTER un nouvel élément à la liste sélectionnée
-    function addItemToSelectedList(entry) {
+    async function addItemToSelectedList(entry) {
     if (!selectedList.value) return
 
     const newItem = {
-        id: Date.now(), // en attendant l'envoie au backend, on utilise l'horodatage comme ID unique
         entry: entry,
         isCompleted: false,
     }
-
     selectedList.value.items.push(newItem)
 
-    localStorage.setItem('lists', JSON.stringify(lists.value))
+    try {
+        const res = await listApi.updateList(selectedList.value._id, { items: selectedList.value.items })
+        console.log('Liste mise à jour avec succès :', res.data)  
+        } catch (err) {
+            console.warn('API down → fallback local', err)
+        }
     }
 
     //MET À JOUR L'ÉTAT de complétion d'un élément de la liste sélectionnée
-    function toggleItemCompletion(itemId) {
+    async function toggleItemCompletion(itemId) {
         if (!selectedList.value) return// Vérifie si une liste est sélectionnée 
 
         if (selectedList.value.type === 'classic') {
-            const item = selectedList.value.items.find(item => item.id === itemId)
+            const item = selectedList.value.items.find(item => item._id === itemId)
             if (item) {
-                item.isCompleted = !item.isCompleted
+                item.done = !item.done
                 console.log('État de complétion mis à jour pour l\'élément :', item, !item.isCompleted)
-                localStorage.setItem('lists', JSON.stringify(lists.value))
+                try {
+                    const res = await listApi.updateList(selectedList.value._id, { items: selectedList.value.items })
+                    console.log('Liste mise à jour avec succès :', res.data)  
+                } catch (err) {
+                    console.warn('API down → fallback local', err)
+                }
             }
         }
 
@@ -105,6 +142,7 @@ export const useListStore = defineStore('list', () => {
         lists,
         creatingList,
         showListResults,
+        initLists,
         createList,
         selectList,
         selectedList,

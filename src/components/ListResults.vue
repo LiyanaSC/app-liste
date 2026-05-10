@@ -12,9 +12,9 @@
  <!-- ------------Affichage des éléments de la liste de type classique------------ -->
           <div v-else class="list-items-container">
                   <ul v-if="listStore.selectedList.type === 'classic'" class="list-items">
-                    <li class="item" v-for="(item, index) in listStore.selectedList.items" :key="index">
-                      <input type="checkbox" :id="'item-' + index" :checked="item.isCompleted" @change="listStore.toggleItemCompletion(item.id)"> 
-                      <label :for="'item-' + index">{{ item.entry }}</label>
+                    <li class="item" v-for="(item, index) in listStore.selectedList.items" :key="item._id">
+                      <input type="checkbox" :id="item._id" :checked="item.done" @change="listStore.toggleItemCompletion(item._id)"> 
+                      <label :for="item._id">{{ item.entry }}</label>
                     </li>
                     
                   </ul>
