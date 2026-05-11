@@ -11,16 +11,15 @@
           </p>
  <!-- ------------Affichage des éléments de la liste de type classique------------ -->
           <div v-else class="list-items-container">
-                  <ul v-if="listStore.selectedList.type === 'classic'" class="list-items">
-                    <li class="item" v-for="(item, index) in listStore.selectedList.items" :key="item._id">
-                      <input type="checkbox" :id="item._id" :checked="item.done" @change="listStore.toggleItemCompletion(item._id)"> 
-                      <label :for="item._id">{{ item.entry }}</label>
-                    </li>
-                    
-                  </ul>
-                  <p v-if="listStore.selectedList.type === 'classic'" :class="isFocus ? 'entry-box-focus' : 'entry-box'">
+                <ul v-if="listStore.selectedList.type === 'classic'" class="list-items">
+                  <li class="item" v-for="(item, index) in listStore.selectedList.items" :key="item._id">
+                    <Result :entry="item.entry" :itemId="item._id" :isDone="item.done" />
+                  </li>   
+                </ul>
+<!-- ------------Affichage du champ d'ajout d'éléments pour les listes de type classique------------ -->
+                  <p v-if="listStore.selectedList.type === 'classic'" :class="isFocus && isMobile ? 'entry-box-focus' : 'entry-box'">
                     <span class="entry-style">
-                    <input type="text" id="entry" v-model="entry" class="entry-input" @keyup.enter="addItem" placeholder="Ajouter un nouvel élément..." @focus="isFocus=true" @blur="isFocus=false"> 
+                    <input type="text" id="entry" v-model="entry" class="entry-input" @keyup.enter="addItem" placeholder="Ajouter un nouvel élément..." @focus="isFocus=true" > 
                     <label for="entry" v-if="entry ? true : false"><img :src="sendImg" alt="Envoyer" class="send-entry" @click="addItem"></label>
                     <label for="entry" v-else><img :src="plusWhite" alt="Ajouter" class="add-entry"></label>
                   </span>
@@ -41,12 +40,12 @@ import arrowLeft from '../assets/arrow-left.svg' // Import de l'image de flèche
 import StarBar from './style/starBar.vue' // Import du composant StarBar pour l'affichage de la barre étoilée
 import { useListStore } from '../store/listStore' // Import du store Pinia pour gérer les listes
 import { useIsMobile } from '../composables/useIsMobile.js'
+import Result from './buttons/result.vue' // Import du composant Result pour l'affichage des éléments de la liste
 
 const { isMobile } = useIsMobile() 
 const listStore = useListStore()
 
 const isFocus = ref(false)
-
 
 const showListResults = ref(false) // Variable réactive pour contrôler l'affichage des résultats de la liste (utilisée pour les mobiles)
 
@@ -56,8 +55,11 @@ const addItem = () => {
   if (entry.value.trim() !== '') {
     listStore.addItemToSelectedList(entry.value) // Appelle la méthode du store pour ajouter un nouvel élément à la liste sélectionnée
     entry.value = '' // Réinitialise le champ de saisie après l'ajout
+    isFocus.value = false // Réinitialise l'état de focus après l'ajout
   }
 }
+
+
 
 
 
@@ -139,28 +141,8 @@ padding: 20px;
   border-radius: 10px;
   gap: 10px;
 }
-.item input[type="checkbox"] {
-  appearance: none; 
-  -webkit-appearance: none;
-  border-radius: 50%;
-  width: 15px;
-  height: 15px;
-  border: 2px solid var(--color-secondary);
-  cursor: pointer;
-}
-.item input[type="checkbox"]:checked {
-  background-color: rgb(182, 182, 182);
-  border: initial;
-}
-.item label {
-  flex: 1;
-  font-size: 1rem;
-  color: black;
-  text-align: left;
-}
-.item input[type="checkbox"]:checked + label {
-  color: rgb(182, 182, 182);
-}
+
+
 .entry-box {
   box-sizing: border-box;
   width: 100%;
@@ -174,7 +156,7 @@ min-height: 40px;
 }
 .entry-box-focus{
   box-sizing: border-box;
-  position:absolute;
+  position: fixed;
   bottom: 0px;
   left: 0px;
   width: 100vw;

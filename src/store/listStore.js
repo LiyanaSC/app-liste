@@ -134,6 +134,40 @@ export const useListStore = defineStore('list', () => {
 
     }
 
+    //MET À JOUR L'ENTRÉE d'un élément de la liste sélectionnée
+    async function updateItemEntry(itemId, newEntry) {
+        console.log('mis à jour :', itemId, newEntry) // Log pour vérifier les paramètres reçus
+        if (!selectedList.value) return // Vérifie si une liste est sélectionnée
+
+            const item = selectedList.value.items.find(item => item._id === itemId)
+            if (item) {
+                item.entry = newEntry
+                console.log('Entrée mise à jour pour l\'élément :', item, newEntry)
+                try {
+                    const res = await listApi.updateList(selectedList.value._id, { items: selectedList.value.items })
+                    console.log('Liste mise à jour avec succès :', res.data)  
+                } catch (err) {
+                    console.warn('API down → fallback local', err)
+                }
+            }   
+
+    }
+
+    //SUPPRIME un élément de la liste sélectionnée
+    async function deleteItem(itemId) {
+        if (!selectedList.value) return // Vérifie si une liste est sélectionnée
+
+        const updatedItems = selectedList.value.items.filter(item => item._id !== itemId) // Filtre les éléments pour exclure celui avec l'ID spécifié
+        selectedList.value.items = updatedItems // Met à jour la liste des éléments dans la liste sélectionnée
+
+        try {
+            const res = await listApi.updateList(selectedList.value._id, { items: selectedList.value.items })
+            console.log('Liste mise à jour avec succès :', res.data)  
+        } catch (err) {
+            console.warn('API down → fallback local', err)
+        }
+    }
+
  
     // Retourne les données et les fonctions pour être utilisées dans les composants
     return {
@@ -149,6 +183,8 @@ export const useListStore = defineStore('list', () => {
         addItemToSelectedList,
         toggleItemCompletion,
         editListTitle,
-        deleteList
+        deleteList,
+        updateItemEntry,
+        deleteItem
     }       
 })
