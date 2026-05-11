@@ -18,10 +18,11 @@
                     </li>
                     
                   </ul>
-                  <p v-if="listStore.selectedList.type === 'classic'" class="entry-box">
+                  <p v-if="listStore.selectedList.type === 'classic'" :class="isFocus ? 'entry-box-focus' : 'entry-box'">
                     <span class="entry-style">
-                    <input type="text" id="entry" v-model="entry" class="entry-input" @keyup.enter="addItem" placeholder="Ajouter un nouvel élément..."> 
-                    <label for="entry"><img :src="plusWhite" alt="Ajouter" class="add-entry"></label>
+                    <input type="text" id="entry" v-model="entry" class="entry-input" @keyup.enter="addItem" placeholder="Ajouter un nouvel élément..." @focus="isFocus=true" @blur="isFocus=false"> 
+                    <label for="entry" v-if="entry ? true : false"><img :src="sendImg" alt="Envoyer" class="send-entry" @click="addItem"></label>
+                    <label for="entry" v-else><img :src="plusWhite" alt="Ajouter" class="add-entry"></label>
                   </span>
                 </p>
                 <p class="info">⭐️Appuie sur une Entrée pour ajouter</p>
@@ -35,6 +36,7 @@
 <script setup>
 import { computed, ref } from 'vue' // Import de la fonction ref de Vue pour créer des variables réactives
 import plusWhite from '../assets/plus-white.svg' // Import de l'image + blanche pour le bouton d'ajout
+import sendImg from '../assets/send.svg' // Import de l'image send pour le bouton d'envoi
 import arrowLeft from '../assets/arrow-left.svg' // Import de l'image de flèche gauche pour le bouton de retour (non utilisé dans ce code, mais peut être utilisé pour les mobiles)
 import StarBar from './style/starBar.vue' // Import du composant StarBar pour l'affichage de la barre étoilée
 import { useListStore } from '../store/listStore' // Import du store Pinia pour gérer les listes
@@ -42,6 +44,8 @@ import { useIsMobile } from '../composables/useIsMobile.js'
 
 const { isMobile } = useIsMobile() 
 const listStore = useListStore()
+
+const isFocus = ref(false)
 
 
 const showListResults = ref(false) // Variable réactive pour contrôler l'affichage des résultats de la liste (utilisée pour les mobiles)
@@ -168,6 +172,21 @@ min-height: 40px;
   padding-left: 20px;
   padding-right: 20px;
 }
+.entry-box-focus{
+  box-sizing: border-box;
+  position:absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100vw;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end ;
+height: 10%;
+min-height: 40px;
+overflow: hidden;
+background-color: white;
+
+}
 .entry-style{
   display: flex;
   align-items: center;
@@ -192,6 +211,17 @@ min-height: 40px;
   width: 30px;
   height: 30px;
   margin-right: 10px;
+  cursor: pointer;
+  background-color: var(--color-secondary);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(55, 54, 54, 0.724);
+
+}
+.send-entry{
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  padding: 5px;
   cursor: pointer;
   background-color: var(--color-secondary);
   border-radius: 50%;
