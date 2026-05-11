@@ -1,18 +1,18 @@
 <template>
-    <div class="result-container" @click.stop> <!-- Conteneur principal de l'élément de la liste, avec un événement de clic pour empêcher la propagation -->
+    <form @submit.prevent="submitUpdate()" class="result-container"> <!-- Conteneur principal de l'élément de la liste, avec un événement de clic pour empêcher la propagation -->
         <input type="checkbox" :id="itemId" :checked="isDone" @change="listStore.toggleItemCompletion(itemId)"> 
         <label v-if="!isEditing" :for="itemId">{{ entry }}</label>
-        <input v-else class="input-update" type="text" v-model="updatedEntry" @keyup.enter="listStore.updateItemEntry(itemId, updatedEntry)" @click.stop> <!-- Champ de saisie pour éditer l'entrée, avec un événement de clic pour empêcher la propagation -->
+        <input v-else class="input-update" type="text" v-model="updatedEntry" @keyup.enter="submitUpdate()"  @click.stop> <!-- Champ de saisie pour éditer l'entrée, avec un événement de clic pour empêcher la propagation -->
         <div v-if="!isEditing" >
         <img class="icon-edit" :src="pencil" alt="modifier" @click="updatemode(), updatedEntry = entry"> <!-- Icone de modification, qui active le mode édition -->
         <img class="icon-edit" :src="trash" alt="supprimer" @click="listStore.deleteItem(itemId)"> <!-- Icone de suppression, qui appelle la fonction de suppression du store avec l'ID de l'élément -->  
         </div>
         <!-- mode édition -->
         <div v-else >
-            <img class="icon-edit" :src="check" alt="valider" @click="listStore.updateItemEntry(itemId, updatedEntry.value); closeEditMode()"> <!-- Icone de validation, qui valide les modifications -->
+            <img class="icon-edit" :src="check" alt="valider" @click="listStore.updateItemEntry(itemId, updatedEntry); closeEditMode()"> <!-- Icone de validation, qui valide les modifications -->
             <img class="icon-edit" :src="cross" alt="annuler" @click="endUpdatemode"> <!-- Icone d'annulation, qui désactive le mode édition -->
         </div>
-    </div>
+    </form>
                      
 </template>
 
@@ -63,6 +63,10 @@ const closeEditMode = () => {
 updatedEntry.value = entry.value
 
 }
+const submitUpdate = () => {
+  listStore.updateItemEntry(props.itemId, updatedEntry.value) // Appelle la fonction de mise à jour du titre de la liste dans le store avec l'ID de la liste et le nouveau titre
+  isEditing.value = false // Désactive le mode édition après la validation
+}
 
 </script>
 
@@ -79,6 +83,8 @@ updatedEntry.value = entry.value
   border-radius: 50%;
   width: 15px;
   height: 15px;
+  min-width: 15px;
+  min-height: 15px;
   border: 2px solid var(--color-secondary);
   cursor: pointer;
   margin-right: 10px;

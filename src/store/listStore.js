@@ -31,6 +31,15 @@ export const useListStore = defineStore('list', () => {
         }
     }
 
+
+ 
+//------------- SELECTIONNER UNE LISTE par le biais de son id parmis le tableau de listes
+    async function selectList(key) {
+         selectedList.value = lists.value.find(list => list._id === key) || null
+         showListResults.value = true// Affiche les résultats de la liste sélectionnée (pour les mobiles)
+          console.log('showListResults après sélection :', showListResults.value)
+    }
+
 //------------- CREER une liste --------------------------------------------------
     async function createList() {
         if (!title.value.trim()) return // Vérifie que le titre n'est pas vide ou composé uniquement d'espaces
@@ -42,9 +51,9 @@ export const useListStore = defineStore('list', () => {
         try {
             const res = await listApi.createList(newList)  
                 // Met à jour la nouvelle liste avec l'ID retourné par le backend
-                newList.id = res.data._id
-                console.log(newList, res.data)
+                newList._id = res.data._id
                 lists.value.push(newList)
+                console.log('Liste créée avec succès :', lists.value)
 
         } catch (err) {
             console.warn('API down → fallback local', err)
@@ -55,13 +64,6 @@ export const useListStore = defineStore('list', () => {
         selectedList.value = newList // Sélectionne automatiquement la nouvelle liste créée 
         creatingList.value = false // Ferme le formulaire de création de liste
         showListResults.value = true // Affiche les résultats de la liste sélectionnée (pour les mobiles)
-    }
- 
-//------------- SELECTIONNER UNE LISTE par le biais de son id parmis le tableau de listes
-    async function selectList(key) {
-         selectedList.value = lists.value.find(list => list._id === key) || null
-         showListResults.value = true// Affiche les résultats de la liste sélectionnée (pour les mobiles)
-          console.log('showListResults après sélection :', showListResults.value)
     }
 //------------MODIFIER le titre d'une liste dans le tableau de listes en utilisant son id
     async function editListTitle(key, newTitle) {
@@ -99,6 +101,8 @@ export const useListStore = defineStore('list', () => {
     //AJOUTER un nouvel élément à la liste sélectionnée
     async function addItemToSelectedList(entry) {
     if (!selectedList.value) return
+    console.log('là',selectedList.value)
+
 
     const newItem = {
         entry: entry,
@@ -136,13 +140,12 @@ export const useListStore = defineStore('list', () => {
 
     //MET À JOUR L'ENTRÉE d'un élément de la liste sélectionnée
     async function updateItemEntry(itemId, newEntry) {
-        console.log('mis à jour :', itemId, newEntry) // Log pour vérifier les paramètres reçus
+        //jarrête la propagation de l'événement de clic pour éviter de sélectionner la liste avant de valider les modifications
         if (!selectedList.value) return // Vérifie si une liste est sélectionnée
 
             const item = selectedList.value.items.find(item => item._id === itemId)
             if (item) {
                 item.entry = newEntry
-                console.log('Entrée mise à jour pour l\'élément :', item, newEntry)
                 try {
                     const res = await listApi.updateList(selectedList.value._id, { items: selectedList.value.items })
                     console.log('Liste mise à jour avec succès :', res.data)  

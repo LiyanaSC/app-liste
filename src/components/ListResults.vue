@@ -20,7 +20,7 @@
                   <p v-if="listStore.selectedList.type === 'classic'" :class="isFocus && isMobile ? 'entry-box-focus' : 'entry-box'">
                     <span class="entry-style">
                     <input type="text" id="entry" v-model="entry" class="entry-input" @keyup.enter="addItem" placeholder="Ajouter un nouvel élément..." @focus="isFocus=true" > 
-                    <label for="entry" v-if="entry ? true : false"><img :src="sendImg" alt="Envoyer" class="send-entry" @click="addItem"></label>
+                    <label for="entry" v-if="entry"><img :src="sendImg" alt="Envoyer" class="send-entry" @click="addItem"></label>
                     <label for="entry" v-else><img :src="plusWhite" alt="Ajouter" class="add-entry"></label>
                   </span>
                 </p>
