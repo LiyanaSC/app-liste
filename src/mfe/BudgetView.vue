@@ -1,18 +1,16 @@
 <template>
-  <div class="liste-view">
-    <Sidebar />
-    <ListResults />
+  <div class="budget-view">
+    <p>Je suis en cours de développement, je serai bientôt disponible.</p>
 
   </div>
 </template>
 
 <script setup>
-import Sidebar from '../Layout/Sidebar.vue';
-import ListResults from '../components/ListResults.vue';
+
 </script>
 
 <style scoped>
-.liste-view {
+.budget-view {
   position: relative;
   width: 90%;
   display: flex;
@@ -33,7 +31,7 @@ import ListResults from '../components/ListResults.vue';
 
 }
 @media screen and (max-width: 768px) {
-  .liste-view {
+  .budget-view {
     flex-direction: column;
     width: 95%;
     margin-top: 20px;

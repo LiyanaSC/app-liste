@@ -12,7 +12,7 @@ fetch('https://api.example.com/data', {
 .catch(error => console.error('Error:', error));
 */
 
-const API_URL = import.meta.env.VITE_SDHL_VUEJS_APP_SIMPLIE_URL_LIST // Récupère l'URL de base de l'API à partir des variables d'environnement
+const API_URL = import.meta.env.VITE_SDHL_VUEJS_APP_SIMPLIE_URL // Récupère l'URL de base de l'API à partir des variables d'environnement
 
 
 export async function http(path, options = {}) {
