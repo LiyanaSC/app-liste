@@ -1,5 +1,5 @@
 {
-  "name": "app-liste",
+  "name": "app-budget",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d appbudget-dist"
   },
   "dependencies": {
     "@originjs/vite-plugin-federation": "^1.4.1",

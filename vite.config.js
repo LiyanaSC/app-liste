@@ -9,12 +9,12 @@ import federation from '@originjs/vite-plugin-federation'
 
 
 export default defineConfig({
- base: '/applist-dist/', // Base path pour les ressources (important pour le module federation)
+ base: '/appbudget-dist/', // Base path pour les ressources (important pour le module federation)
   plugins: [
     vue(),// Active le support de Vue dans Vite
     federation({
       // Nom du microfrontend appelé par le shell (doit être unique dans l’architecture)
-      name: 'app-liste',
+      name: 'app-budget',
       // Le fichier généré qui contient les composants exposés pour le shell
       filename: 'remoteEntry.js',
       // Liste des composants/pages que ce microfrontend rend disponibles au shell
@@ -37,7 +37,7 @@ export default defineConfig({
   ],
   server: {
     // Port sur lequel l’app sera lancée en dev (`npm run dev`)
-    port: 5001,
+    port: 5002,
     // Ces headers permettent d’autoriser le shell (sur un autre port) à charger ce microfrontend
     headers: {
       'Access-Control-Allow-Origin': '*'
@@ -52,6 +52,6 @@ export default defineConfig({
     minify: false,
     cssCodeSplit: false,
      
-    outDir: "/Users/linonliyana/Documents/GitHub/BTB_projet/applist-dist/"
+    outDir: "/Users/linonliyana/Documents/GitHub/BTB_projet/appbudget-dist/"
   }
 })

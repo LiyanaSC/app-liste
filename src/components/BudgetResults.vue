@@ -38,7 +38,7 @@ import plusWhite from '../assets/plus-white.svg' // Import de l'image + blanche 
 import sendImg from '../assets/send.svg' // Import de l'image send pour le bouton d'envoi
 import arrowLeft from '../assets/arrow-left.svg' // Import de l'image de flèche gauche pour le bouton de retour (non utilisé dans ce code, mais peut être utilisé pour les mobiles)
 import StarBar from './style/starBar.vue' // Import du composant StarBar pour l'affichage de la barre étoilée
-import { useListStore } from '../store/listStore' // Import du store Pinia pour gérer les listes
+import { useListStore } from '../store/budgetStore.js' // Import du store Pinia pour gérer les listes
 import { useIsMobile } from '../composables/useIsMobile.js'
 import Result from './buttons/result.vue' // Import du composant Result pour l'affichage des éléments de la liste
 
