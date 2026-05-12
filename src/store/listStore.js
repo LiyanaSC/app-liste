@@ -19,9 +19,6 @@ export const useListStore = defineStore('list', () => {
 
 //------------- récupérer les listes depuis le backend -----------------------------
     async function initLists() {
-        //je créer une variable pour y ajouter un token de test A SUPPRIMER LORS DE L'IMPLEMENTATION DE L'AUTHENTIFICATION
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWFhZGY0ZmViMGY1NDk4MTkzOGEwOWYiLCJpYXQiOjE3Nzc5MTQzNjcsImV4cCI6MTc4MDUwNjM2N30.of5o_RowtQv0k34ePZmiQyyHYbAr8_lFis20IvVhv4g'
-        localStorage.setItem('token', token) // Stocke le token dans le localStorage pour les requêtes API
         try {
             const res = await listApi.getLists()
             lists.value = res.data || [] // Met à jour les listes avec les données récupérées du backend, ou un tableau vide si aucune donnée n'est trouvée
