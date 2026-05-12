@@ -18,7 +18,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useListStore } from '../../store/budgetStore'
+import { useListStore } from '../../store/listStore'
 import trash from '../../assets/trash-dark.svg'
 import pencil from '../../assets/pencil-dark.svg'
 import check from '../../assets/check-green.svg'

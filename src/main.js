@@ -3,7 +3,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
-import BudgetView from './mfe/BudgetView.vue'
+import ListeView from './mfe/ListeView.vue'
 
 // Styles (⚠️ à améliorer plus tard)
 import '/Users/linonliyana/Documents/GitHub/BTB_projet/shell/src/style/variables.css'
@@ -37,7 +37,7 @@ export function mount(el) {
 
   el.appendChild(container)
 
-  createMyApp(BudgetView, container)
+  createMyApp(ListeView, container)
 }
 
 //  MODE DEV (standalone)
