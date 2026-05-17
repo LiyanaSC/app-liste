@@ -2,7 +2,7 @@
     <div :class="isMobile ? 'list-results-mobile' : 'list-results'" v-if="isMobile ? listStore.showListResults  : isMobile === false">
         <div v-if="isMobile" class="back-arrow-box"><img :src="arrowLeft" alt="Retour" class="back-arrow" @click="listStore.showListResults = false"/></div>
         <h3 class="list-results-title">{{ listStore.selectedList?.title || 'Aucune liste sélectionnée' }}</h3>
-        <StarBar/>
+        <StarBar class="mobile-star-bar"/>
  <!-- ------------Message d'invite si aucune liste n'est sélectionnée------------ -->
         <div class="content-list">
           <p v-if="!listStore.selectedList">Choississez une liste dans la barre latérale pour afficher ses résultats.
@@ -235,9 +235,28 @@ background-color: white;
       cursor: pointer;
     }
     .back-arrow-box{
+      position: absolute;
+      top: 0;
+      left: 0;
       display: flex;
       justify-content: flex-start;
       width: 100%;
+    }
+    .mobile-star-bar{
+
+      margin: 0px;  
+    }
+    .list-items{
+      gap:0px;
+      border-radius: 15px 15px 0px 0px;
+      padding: 0px;
+    }
+    .item{
+      border-radius: 0px;
+      border-bottom: 0.5px solid var(--light-blue);
+    }
+    .entry-box{
+      padding: 0px;
     }
   }
 
