@@ -104,7 +104,7 @@ function SelectList() {
   align-items: center;
   justify-content: space-between;
   background: var(--linear-gradient-button);
-  padding: 30px 30px 30px 30px;
+  padding: 30px;
   border-radius: 10px;
   width: 80%;
   align-self: center;
@@ -141,6 +141,15 @@ function SelectList() {
   height: 20px;
   margin-left: 10px;
 }
-
+@media screen and (max-width: 768px) {
+  .list-title-button {
+    margin: 10px;
+    padding: 30px 10px 30px 10px;
+    
+  }
+  .button-text{
+    font-size: 1rem;
+  }
+}
 
 </style>

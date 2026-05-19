@@ -124,9 +124,14 @@ h2 {
 
 
 @media screen and (max-width: 768px) {
-.list-sidebar{
-  width: 100%;
-}
+  .list-sidebar{
+    width: 90%;
+    height: 90%;
+    border-radius: 30px 30px 0 0;
+    border-top: 0.5px solid var(--light-blue);
+    background: var(--background-transparent);
+  }
+
   
 }
 
