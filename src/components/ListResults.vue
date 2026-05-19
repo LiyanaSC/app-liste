@@ -12,7 +12,7 @@
  <!-- ------------Affichage des éléments de la liste de type classique------------ -->
           <div v-else class="list-items-container">
                 <ul v-if="listStore.selectedList.type === 'classic'" class="list-items">
-                  <li class="item" v-for="(item, index) in listStore.selectedList.items" :key="item._id">
+                  <li class="item" v-for="(item, index) in sortedItems" :key="item._id">
                     <Result :entry="item.entry" :itemId="item._id" :isDone="item.done" />
                   </li>   
                 </ul>
@@ -59,7 +59,13 @@ const addItem = () => {
   }
 }
 
-
+//je classe les items selon s'ils sont checkés ou non
+const sortedItems = computed(() => {
+  if (!listStore.selectedList) return []
+  const doneItems = listStore.selectedList.items.filter(item => item.done)
+  const notDoneItems = listStore.selectedList.items.filter(item => !item.done)
+  return [...notDoneItems, ...doneItems] // Les éléments non cochés sont affichés en premier
+})
 
 
 
