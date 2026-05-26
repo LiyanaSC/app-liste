@@ -10,7 +10,7 @@
 
             <!-- Input pour le titre -->
             <div class="input-group">
-                <label for="title">Nom de la liste</label>
+                <label class="subtitle" for="title">Nom de la liste</label>
                 <input
                     class="title-input"
                     v-model="listStore.title"
@@ -21,7 +21,7 @@
 
             <!-- Choix du type visible unique s'il y a plusieurs types 
             <div v-if="typeList.length > 1" class="input-group">
-                <p for="type">Type de liste</p>
+                <p class="subtitle" for="type">Type de liste</p>
 
                 <div class="type-select">
                     <div
@@ -106,6 +106,9 @@ const closeForm = () => {
   text-align: left;
   padding-bottom: 20px;
   border-bottom: 1px solid rgba(116, 26, 152, 0.225);
+}
+.subtitle{
+    font-weight: bold;
 }
 .input-group {
   display: flex;
