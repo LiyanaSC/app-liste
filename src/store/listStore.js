@@ -103,13 +103,12 @@ export const useListStore = defineStore('list', () => {
         entry: entry,
         isCompleted: false,
     }
-
+    selectedList.value.items.push(newItem)
     try {
         const res = await listApi.updateList(selectedList.value._id, { items: selectedList.value.items })
         selectedList.value = res.data // Met à jour la liste sélectionnée avec les données retournées par le backend
         console.log('Liste mise à jour avec succès :', res.data)
     // Ajoute le nouvel élément à la liste des éléments de la liste sélectionnée
-        selectedList.value.items.push(newItem)
         } catch (err) {
             console.warn('API down → fallback local', err)
         }
