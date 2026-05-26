@@ -4,7 +4,7 @@
         <StarBar/>
 
         <!-- BOUTON POUR AJOUTER UNE NOUVELLE LISTE -->
-        <button v-if="listStore.creatingList === false" class="add-list-button" @click="listStore.creatingList = true"> 
+        <button v-if="listStore.creatingList === false" class="add-list-button super-action-button" @click="listStore.creatingList = true"> 
           <img class="icon-plus" :src="isDark ? plusWhite : plusBlack" alt="ajouter une liste">
           <p class="button-text">Nouvelle Liste</p>
         </button>
@@ -105,12 +105,10 @@ h2 {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background: var(--linear-gradient-button);
   padding: 30px 30px 30px 30px;
   border-radius: 10px;
   width: 80%;
   align-self: center;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.61);
 }
 .icon-plus {
   width: 30px;
