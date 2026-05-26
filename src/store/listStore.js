@@ -49,17 +49,15 @@ export const useListStore = defineStore('list', () => {
         try {
             const res = await listApi.createList(newList)  
                 // Met à jour la nouvelle liste avec l'ID retourné par le backend
-                newList._id = res.data._id
-                lists.value.push(newList)
+                lists.value.push(res.data)
                 console.log('Liste créée avec succès :', lists.value)
-
+                 selectedList.value = res.data // Sélectionne automatiquement la nouvelle liste créée 
         } catch (err) {
             console.warn('API down → fallback local', err)
         }
           // reset
         title.value = ''
         type.value = 'classic'
-        selectedList.value = newList // Sélectionne automatiquement la nouvelle liste créée 
         creatingList.value = false // Ferme le formulaire de création de liste
         showListResults.value = true // Affiche les résultats de la liste sélectionnée (pour les mobiles)
     }
@@ -99,18 +97,19 @@ export const useListStore = defineStore('list', () => {
     //AJOUTER un nouvel élément à la liste sélectionnée
     async function addItemToSelectedList(entry) {
     if (!selectedList.value) return
-    console.log('là',selectedList.value)
-
+    if (!entry?.trim()) return
 
     const newItem = {
         entry: entry,
         isCompleted: false,
     }
-    selectedList.value.items.push(newItem)
 
     try {
         const res = await listApi.updateList(selectedList.value._id, { items: selectedList.value.items })
-        console.log('Liste mise à jour avec succès :', res.data)  
+        selectedList.value = res.data // Met à jour la liste sélectionnée avec les données retournées par le backend
+        console.log('Liste mise à jour avec succès :', res.data)
+    // Ajoute le nouvel élément à la liste des éléments de la liste sélectionnée
+        selectedList.value.items.push(newItem)
         } catch (err) {
             console.warn('API down → fallback local', err)
         }

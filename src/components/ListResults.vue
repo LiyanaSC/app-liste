@@ -142,7 +142,6 @@ padding: 20px;
   align-items: center;
   text-align: left;
   background-color: white;
-  height: 50px;
   padding: 10px;
   border-radius: 10px;
   gap: 10px;
