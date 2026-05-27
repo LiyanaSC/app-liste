@@ -10,11 +10,11 @@
     <!--Icon de suppression et de modification-->
     <div v-if="!isEditing" class="action-icons">
       <img class="icon-edit" :src="pencil" alt="modifier" @click="updatemode"> <!-- Icone de modification, qui active le mode édition -->
-      <img class="icon-edit" :src="trash" alt="supprimer" @click="listStore.deleteList(listId)"> <!-- Icone de suppression, qui appelle la fonction de suppression du store avec l'ID de la liste -->  
+      <img class="icon-edit" :src="trash" alt="supprimer" @click="stopPropagation(); listStore.deleteList(listId)"> <!-- Icone de suppression, qui appelle la fonction de suppression du store avec l'ID de la liste -->  
     </div>
     <!-- mode édition -->
     <div v-else class="action-icons">
-        <img class="icon-edit" :src="check" alt="valider" @click="listStore.editListTitle(listId, newTitle); closeEditMode()"> <!-- Icone de validation, qui valide les modifications -->
+        <img class="icon-edit" :src="check" alt="valider" @click="stopPropagation(); listStore.editListTitle(listId, newTitle); closeEditMode()"> <!-- Icone de validation, qui valide les modifications -->
         <img class="icon-edit" :src="cross" alt="annuler" @click="endUpdatemode"> <!-- Icone d'annulation, qui désactive le mode édition -->
     </div>
   </button>
