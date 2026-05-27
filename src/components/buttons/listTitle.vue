@@ -1,7 +1,6 @@
 <template>
   <button class="list-title-button" :style="{ background: colorType }" @click="SelectList"> <!-- Émet un événement de sélection avec le titre de la liste -->
     <div class="list-title-content">
-        <img class="icon-list" :src="imageSrc" alt="liste">
         <p class="button-text" v-if="!isEditing"  >{{ newTitle }}</p>
         <input class="input-edit" type="text" v-model="newTitle" v-else @keyup.enter="listStore.editListTitle(listId, newTitle); closeEditMode()" @click="stopPropagation()"/> <!-- Champ de saisie pour l'édition du titre, caché par défaut -->
     </div>
@@ -53,9 +52,6 @@ const props = defineProps({
       return typeList.some(item => item.type === value) // Vérifie que le type est valide en comparant avec les types définis dans typeList
     }
   }
-})
- const imageSrc = computed(() => {
-  return typeList.find(item => item.type === props.type)?.icon
 })
 
 const colorType = computed(() => {
@@ -122,8 +118,12 @@ function SelectList() {
 }
 
 .button-text {
-  font-size: 1.3rem;
-  color: var(--dark-blue);
+  font-size: 1rem;
+  color: white;
+  font-weight: bold;
+  overflow: hidden;
+  word-wrap: break-word;
+  text-align: left;
 }
 .input-edit {
   font-size: 1.3rem;

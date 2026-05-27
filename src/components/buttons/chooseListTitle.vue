@@ -1,5 +1,5 @@
 <template>
-    <div  class="choose-list-title-form" :style="{ backgroundColor: typeList[0].color || 'white' }">
+    <div  class="choose-list-title-form" :style="{background: typeList[0].color || 'white' }">
         <div class="form-header">
             <UpdateIcon />
             <h3 class="form-title">Créer une nouvelle liste ✨</h3>

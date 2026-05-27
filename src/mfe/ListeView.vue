@@ -14,23 +14,15 @@ import ListResults from '../components/ListResults.vue';
 <style scoped>
 .liste-view {
   position: relative;
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  border-radius: 30px;
   justify-self: center;
   align-self: center;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  height: 90%;
-  border-radius: 20px;
+  height: 100%;
   overflow: hidden;
-
-
-
-
 }
 @media screen and (max-width: 768px) {
   .liste-view {

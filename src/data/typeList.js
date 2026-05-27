@@ -4,9 +4,9 @@ const typeList = [
   {
     type: 'classic',
     label: 'classique',
-    icon: new URL('../assets/list-classic-not-complete.svg', import.meta.url).href,
+    icon: new URL('../assets/list-classic-complete.svg', import.meta.url).href,
     image: new URL('../assets/img-classic.png', import.meta.url).href,
-    color: 'var(--light-pink)',
+    color: 'linear-gradient(45deg, rgb(140, 80, 229), rgb(212, 159, 253) 90%)',
     description: 'Ici vous notez ce que vous devez faire et vous cochez quand c’est terminé.'
   },
  

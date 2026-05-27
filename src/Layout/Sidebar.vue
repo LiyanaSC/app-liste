@@ -75,6 +75,7 @@ console.log('Nom d\'utilisateur récupéré :', username) // Affiche le nom d'ut
  height: 100%;
   min-width: 360px;
   width: 40%;
+  background: linear-gradient(rgb(196, 53, 221), #2E1A4F 30%);
   background-color: var(--deep-violet);
   display: flex;
   flex-direction: column;
@@ -123,11 +124,9 @@ h2 {
 
 @media screen and (max-width: 768px) {
   .list-sidebar{
-    width: 90%;
-    height: 90%;
-    border-radius: 30px 30px 0 0;
-    border-top: 0.5px solid var(--light-blue);
-    background: var(--background-transparent);
+    width: 100%;
+    height: 100%;
+
   }
 
   
