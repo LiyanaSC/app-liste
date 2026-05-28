@@ -84,7 +84,6 @@ const closeForm = () => {
   width: 80%;
   padding: 30px 30px 30px 30px;
   border-radius: 10px;
-  box-shadow:  0px 0px 10px rgba(255, 255, 255, 0.61);
   margin-bottom: 20px;
 }
 
@@ -106,9 +105,11 @@ const closeForm = () => {
   text-align: left;
   padding-bottom: 20px;
   border-bottom: 1px solid rgba(116, 26, 152, 0.225);
+  color: white;
 }
 .subtitle{
     font-weight: bold;
+    color: var(--dark-blue);
 }
 .input-group {
   display: flex;

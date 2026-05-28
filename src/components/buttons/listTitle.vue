@@ -1,5 +1,5 @@
 <template>
-  <button class="list-title-button" :style="{ background: colorType }" @click="SelectList"> <!-- Émet un événement de sélection avec le titre de la liste -->
+  <button class="list-title-button" @click="SelectList"> <!-- Émet un événement de sélection avec le titre de la liste -->
     <div class="list-title-content">
         <p class="button-text" v-if="!isEditing"  >{{ newTitle }}</p>
         <input class="input-edit" type="text" v-model="newTitle" v-else @keyup.enter="listStore.editListTitle(listId, newTitle); closeEditMode()" @click="stopPropagation()"/> <!-- Champ de saisie pour l'édition du titre, caché par défaut -->
@@ -7,12 +7,12 @@
 
 
     <!--Icon de suppression et de modification-->
-    <div v-if="!isEditing" class="action-icons">
+    <div v-if="!isEditing" class="icon-list">
       <img class="icon-edit" :src="pencil" alt="modifier" @click="updatemode"> <!-- Icone de modification, qui active le mode édition -->
-      <img class="icon-edit" :src="trash" alt="supprimer" @click="stopPropagation(); listStore.deleteList(listId)"> <!-- Icone de suppression, qui appelle la fonction de suppression du store avec l'ID de la liste -->  
+      <img class="icon-edit" :src="trash" alt="supprimer" @click="stopPropagation();listStore.showDeleteConfirmationList = true; listStore.toDeleteId = listId; listStore.toDeleteName = newTitle"> <!-- Icone de suppression, qui appelle la fonction de suppression du store avec l'ID de la liste -->  
     </div>
     <!-- mode édition -->
-    <div v-else class="action-icons">
+    <div v-else class="icon-list">
         <img class="icon-edit" :src="check" alt="valider" @click="stopPropagation(); listStore.editListTitle(listId, newTitle); closeEditMode()"> <!-- Icone de validation, qui valide les modifications -->
         <img class="icon-edit" :src="cross" alt="annuler" @click="endUpdatemode"> <!-- Icone d'annulation, qui désactive le mode édition -->
     </div>
@@ -27,8 +27,8 @@ import { useListStore } from '../../store/listStore';
 const listStore = useListStore();
 
 //--------------------------Base du template-------------------------
-const pencil = new URL('../../assets/pencil-dark.svg', import.meta.url).href
-const trash = new URL('../../assets/trash-dark.svg', import.meta.url).href
+const pencil = new URL('../../assets/pencil-white.svg', import.meta.url).href
+const trash = new URL('../../assets/trash-white.svg', import.meta.url).href
 const check = new URL('../../assets/check-green.svg', import.meta.url).href
 const cross = new URL('../../assets/xmark-red.svg', import.meta.url).href
 
@@ -83,7 +83,7 @@ const closeEditMode = () => {
   isEditing.value = false // Désactive le mode édition
 }
 function SelectList() {
-  listStore.selectList(props.idtitle) // Appelle la méthode selectList du store avec l'ID de la liste sélectionnées
+  listStore.selectList(props.listId) // Appelle la méthode selectList du store avec l'ID de la liste sélectionnées
 }
 
 </script>
@@ -92,18 +92,15 @@ function SelectList() {
   background-color: transparent;
   border: none;
   cursor: pointer;
-  padding: 0.5rem;
-  margin: 1rem;
-  align-self: flex-start;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background: var(--linear-gradient-button);
+  width: 100%;
+  border-bottom: 1px solid rgb(212, 159, 253) ;
   padding: 30px;
-  border-radius: 10px;
-  width: 80%;
-  align-self: center;
+  
+
 }
 .list-title-content {
   display: flex;
@@ -112,9 +109,8 @@ function SelectList() {
   justify-content: flex-start;
 }
 .icon-list {
-  width: 24px;
-  height: 24px;
-  margin-right: 8px;
+  display: flex;
+  gap: 10px;
 }
 
 .button-text {
@@ -127,9 +123,9 @@ function SelectList() {
 }
 .input-edit {
   font-size: 1.3rem;
-  color: var(--dark-blue);
+  color: white;
   border: none;
-  border-bottom: 2px solid var(--dark-blue);
+  border-bottom: 2px solid white;
   background-color: transparent;
   padding: 4px;
   text-align: left;

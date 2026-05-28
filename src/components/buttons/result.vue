@@ -5,7 +5,7 @@
         <input v-else class="input-update" type="text" v-model="updatedEntry" @keyup.enter="submitUpdate()"  @click.stop> <!-- Champ de saisie pour éditer l'entrée, avec un événement de clic pour empêcher la propagation -->
         <div v-if="!isEditing" >
         <img class="icon-edit" :src="pencil" alt="modifier" @click="updatemode(), updatedEntry = entry"> <!-- Icone de modification, qui active le mode édition -->
-        <img class="icon-edit" :src="trash" alt="supprimer" @click="listStore.deleteItem(itemId)"> <!-- Icone de suppression, qui appelle la fonction de suppression du store avec l'ID de l'élément -->  
+        <img class="icon-edit" :src="trash" alt="supprimer" @click="listStore.showDeleteConfirmationItem = true; listStore.toDeleteId = itemId; listStore.toDeleteName = entry"> <!-- Icone de suppression, qui appelle la fonction de suppression du store avec l'ID de l'élément -->  
         </div>
         <!-- mode édition -->
         <div v-else >

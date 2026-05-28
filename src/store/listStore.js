@@ -16,7 +16,10 @@ export const useListStore = defineStore('list', () => {
     const creatingList = ref(false) // Variable pour gérer l'état de création d'une liste
     //variable qui montre ou cache les résultats de la liste (pour les mobiles)
     const showListResults = ref(false)
-
+    const showDeleteConfirmationList = ref(false) // Variable pour gérer l'affichage de la confirmation de suppression
+    const showDeleteConfirmationItem = ref(false) // Variable pour gérer l'affichage de la confirmation de suppression d'un item
+    const toDeleteName = ref('') // Variable pour stocker l'élément à supprimer
+    const toDeleteId = ref('') // Variable pour stocker l'ID de l'élément à supprimer
 //------------- récupérer les listes depuis le backend -----------------------------
     async function initLists() {
         //je créer une variable pour y ajouter un token de test A SUPPRIMER LORS DE L'IMPLEMENTATION DE L'AUTHENTIFICATION
@@ -84,6 +87,9 @@ export const useListStore = defineStore('list', () => {
          try {
             const res = await listApi.deleteList(key)
             console.log('Liste supprimée avec succès :', res.message)  
+            showDeleteConfirmationList.value = false // Masque la confirmation de suppression
+            toDeleteId.value = '' // Réinitialise l'ID de l'élément à supprimer
+            toDeleteName.value = '' // Réinitialise le nom de l'élément à supprimer
             } catch (err) {
                 console.warn('API down → fallback local', err)
             }
@@ -162,6 +168,9 @@ export const useListStore = defineStore('list', () => {
         try {
             const res = await listApi.updateList(selectedList.value._id, { items: selectedList.value.items })
             console.log('Liste mise à jour avec succès :', res.data)  
+            showDeleteConfirmationItem.value = false // Masque la confirmation de suppression
+            toDeleteId.value = '' // Réinitialise l'ID de l'élément à supprimer
+            toDeleteName.value = '' // Réinitialise le nom de l'élément à supprimer  
         } catch (err) {
             console.warn('API down → fallback local', err)
         }
@@ -175,6 +184,10 @@ export const useListStore = defineStore('list', () => {
         lists,
         creatingList,
         showListResults,
+        showDeleteConfirmationList,
+        showDeleteConfirmationItem,
+        toDeleteName,
+        toDeleteId,
         initLists,
         createList,
         selectList,
