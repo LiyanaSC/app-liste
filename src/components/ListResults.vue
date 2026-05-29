@@ -1,5 +1,6 @@
 <template>
-    <div :class="isMobile ? 'list-results-mobile' : 'list-results'" v-if="isMobile ? listStore.showListResults  : isMobile === false">
+    <div :class="isMobile ? 'list-results-mobile' : 'list-results'" v-if="isMobile ? listStore.showListResults  : isMobile === false"   @keydown.esc="listStore.showListResults = false"
+>
         <div v-if="isMobile" class="back-arrow-box"><img :src="arrowLeft" alt="Retour" class="back-arrow" @click="listStore.showListResults = false"/></div>
         <h3 class="list-results-title">{{ listStore.selectedList?.title || 'Aucune liste sélectionnée' }}</h3>
         <StarBar class="mobile-star-bar"/>
