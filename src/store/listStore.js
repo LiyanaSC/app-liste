@@ -167,7 +167,6 @@ export const useListStore = defineStore('list', () => {
 
         try {
             const res = await listApi.updateList(selectedList.value._id, { items: selectedList.value.items })
-            console.log('Liste mise à jour avec succès :', res.data)  
             showDeleteConfirmationItem.value = false // Masque la confirmation de suppression
             toDeleteId.value = '' // Réinitialise l'ID de l'élément à supprimer
             toDeleteName.value = '' // Réinitialise le nom de l'élément à supprimer  
