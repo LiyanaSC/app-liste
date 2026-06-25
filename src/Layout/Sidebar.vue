@@ -3,14 +3,7 @@
         <h2 >  Mes Listes  </h2>
         <StarBar/>
 
-        <!-- BOUTON POUR AJOUTER UNE NOUVELLE LISTE -->
-        <button v-if="listStore.creatingList === false" class="add-list-button super-action-button" @click="listStore.creatingList = true"> 
-          <img class="icon-plus" :src="isDark ? plusWhite : plusBlack" alt="ajouter une liste">
-          <p class="button-text">Nouvelle Liste</p>
-        </button>
-          
-        <!-- FORMULAIRE DE CRÉATION DE LISTE -->
-        <ChooseListTitle v-else />
+
 
         <!-- LISTE DES TITRES DE LISTES EXISTANTES -->
         <ListTitle v-for="(item, index) in listStore.lists" 
@@ -23,11 +16,25 @@
         />
 
 
+          
+        <!-- FORMULAIRE DE CRÉATION DE LISTE -->
+        <ChooseListTitle v-if="listStore.creatingList" />
+
+        <!-- BOUTON POUR AJOUTER UNE NOUVELLE LISTE -->
+         <div class="preserve-display-style">
+          <div v-if="!listStore.creatingList" class="button-background" >
+           <button  class="add-list-button super-action-button" @click="listStore.creatingList = true"> 
+             <p class="button-text">Nouvelle Liste</p>
+           </button>
+         </div>
+
+         </div>
+
+
     </nav>
 </template>
 <script setup>
 import plusWhite from '../assets/plus-white.svg'
-import plusBlack from '../assets/plus-black.svg'
 import { ref, computed, onMounted, onUnmounted } from 'vue' // Import des fonctions Vue nécessaires
 import ChooseListTitle from '../components/buttons/chooseListTitle.vue' // Import du composant de choix de titre de liste
 import ListTitle from '../components/buttons/listTitle.vue' // Import du composant de titre de liste (non utilisé dans ce code, mais peut être utilisé pour afficher les titres des listes existantes)
@@ -35,16 +42,16 @@ import StarBar from '../components/style/starBar.vue'
 import { useListStore } from '../store/listStore.js' // Import du store Pinia pour gérer les listes
 
 // -------------------------GESTION DU THÈME (SOMBRE/CLAIR)-------------------------
-const isDark = ref(false) // Variable réactive pour stocker le thème (false = clair, true = sombre)
+const listStore = useListStore() // Utilisation du store pour accéder aux données et fonctions
 
 onMounted(() => { // Exécuté quand le composant est monté
 
   const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)') // Observe le thème système
 
-  isDark.value = mediaQuery.matches // Initialise isDark selon le thème actuel
+  listStore.isDarkMode = mediaQuery.matches // Initialise isDark selon le thème actuel
 
   const handler = (e) => { // Fonction appelée quand le thème change
-    isDark.value = e.matches // Met à jour la valeur en fonction du nouveau thème
+    listStore.isDarkMode = e.matches // Met à jour la valeur en fonction du nouveau thème
 
   }
 
@@ -57,7 +64,6 @@ onMounted(() => { // Exécuté quand le composant est monté
 })
 
 //--------------------------GESTION DE LA CRÉATION DE LISTE-------------------------
-const listStore = useListStore() // Utilisation du store pour accéder aux données et fonctions
 
 const showForm = ref(false) // Variable réactive pour contrôler l'affichage du formulaire 
 const existingLists = listStore.lists // Variable réactive pour stocker les titres des listes existantes
@@ -72,10 +78,11 @@ console.log('Nom d\'utilisateur récupéré :', username) // Affiche le nom d'ut
 </script>
 <style scoped>
 .list-sidebar {
+  position: relative;
  height: 100%;
   min-width: 360px;
   width: 40%;
-  background: linear-gradient(rgb(196, 53, 221), #2E1A4F 30%);
+  background: linear-gradient(rgb(196, 53, 221), var(--color-background) 30%);
   background-color: var(--deep-violet);
   display: flex;
   flex-direction: column;
@@ -84,7 +91,8 @@ console.log('Nom d\'utilisateur récupéré :', username) // Affiche le nom d'ut
   z-index: 1;
   align-items: center;
   overflow-y: hidden;
-  overflow: auto;}
+  overflow: auto;
+}
 
 h2 {
   margin-top: 20px;
@@ -95,22 +103,7 @@ h2 {
   padding: 1rem;
   border-bottom: 1px solid var(--lavender);
 }
-.add-list-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-  margin: 1rem;
-  align-self: flex-start;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 30px 30px 30px 30px;
-  border-radius: 10px;
-  width: 80%;
-  align-self: center;
-}
+
 .icon-plus {
   width: 30px;
   height: 30px;
@@ -121,7 +114,7 @@ h2 {
   color:white
 }
 
-
+/* Styles  preserve-display-style et button-background sont dans css shell base*/
 @media screen and (max-width: 768px) {
   .list-sidebar{
     width: 100%;

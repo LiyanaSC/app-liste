@@ -8,8 +8,8 @@
 
     <!--Icon de suppression et de modification-->
     <div v-if="!isEditing" class="icon-list">
-      <img class="icon-edit" :src="pencil" alt="modifier" @click="updatemode"> <!-- Icone de modification, qui active le mode édition -->
-      <img class="icon-edit" :src="trash" alt="supprimer" @click="stopPropagation();listStore.showDeleteConfirmationList = true; listStore.toDeleteId = listId; listStore.toDeleteName = newTitle"> <!-- Icone de suppression, qui appelle la fonction de suppression du store avec l'ID de la liste -->  
+      <img class="icon-edit" :src="listStore.isDarkMode ? pencil : pencilDark" alt="modifier" @click="updatemode"> <!-- Icone de modification, qui active le mode édition -->
+      <img class="icon-edit" :src="listStore.isDarkMode ? trash : trashDark" alt="supprimer" @click="stopPropagation();listStore.showDeleteConfirmationList = true; listStore.toDeleteId = listId; listStore.toDeleteName = newTitle"> <!-- Icone de suppression, qui appelle la fonction de suppression du store avec l'ID de la liste -->  
     </div>
     <!-- mode édition -->
     <div v-else class="icon-list">
@@ -28,7 +28,9 @@ const listStore = useListStore();
 
 //--------------------------Base du template-------------------------
 const pencil = new URL('../../assets/pencil-white.svg', import.meta.url).href
+const pencilDark = new URL('../../assets/pencil-dark.svg', import.meta.url).href
 const trash = new URL('../../assets/trash-white.svg', import.meta.url).href
+const trashDark = new URL('../../assets/trash-dark.svg', import.meta.url).href
 const check = new URL('../../assets/check-green.svg', import.meta.url).href
 const cross = new URL('../../assets/xmark-red.svg', import.meta.url).href
 
@@ -107,6 +109,7 @@ function SelectList() {
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+  flex: 1;
 }
 .icon-list {
   display: flex;
@@ -115,7 +118,7 @@ function SelectList() {
 
 .button-text {
   font-size: 1rem;
-  color: white;
+  color: var(--color-text-BW);
   font-weight: bold;
   overflow: hidden;
   word-wrap: break-word;
@@ -123,13 +126,13 @@ function SelectList() {
 }
 .input-edit {
   font-size: 1.3rem;
-  color: white;
+  color: var(--color-text-BW);
   border: none;
-  border-bottom: 2px solid white;
+  border-bottom: 2px solid var(--color-text-BW);
   background-color: transparent;
   padding: 4px;
   text-align: left;
-  width: 60%;
+  width: 100%;
 
 }
 .icon-edit {
