@@ -1,5 +1,5 @@
 <template>
-    <nav class="list-sidebar">
+    <nav ref="sidebar" class="list-sidebar">
         <h2 >  Mes Listes  </h2>
         <StarBar/>
 
@@ -23,8 +23,8 @@
         <!-- BOUTON POUR AJOUTER UNE NOUVELLE LISTE -->
          <div class="preserve-display-style">
           <div v-if="!listStore.creatingList" class="button-background" >
-           <button  class="add-list-button super-action-button" @click="listStore.creatingList = true"> 
-             <p class="button-text">Nouvelle Liste</p>
+           <button  class="add-list-button super-action-button" @click="listStore.creatingList = true, goDown()"> 
+             <p class="button-text">Créer une nouvelle Liste</p>
            </button>
          </div>
 
@@ -35,7 +35,7 @@
 </template>
 <script setup>
 import plusWhite from '../assets/plus-white.svg'
-import { ref, computed, onMounted, onUnmounted } from 'vue' // Import des fonctions Vue nécessaires
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue' // Import des fonctions Vue nécessaires
 import ChooseListTitle from '../components/buttons/chooseListTitle.vue' // Import du composant de choix de titre de liste
 import ListTitle from '../components/buttons/listTitle.vue' // Import du composant de titre de liste (non utilisé dans ce code, mais peut être utilisé pour afficher les titres des listes existantes)
 import StarBar from '../components/style/starBar.vue'
@@ -65,7 +65,7 @@ onMounted(() => { // Exécuté quand le composant est monté
 
 //--------------------------GESTION DE LA CRÉATION DE LISTE-------------------------
 
-const showForm = ref(false) // Variable réactive pour contrôler l'affichage du formulaire 
+const showForm = computed(() => listStore.creatingList) // Variable réactive pour contrôler l'affichage du formulaire 
 const existingLists = listStore.lists // Variable réactive pour stocker les titres des listes existantes
 
 // Récupère les listes du localStorage au démarrage
@@ -74,12 +74,18 @@ onMounted(() => {
 const username = localStorage.getItem('userNickname') || 'ça ne fonctionne pas en dev' // Récupère le nom d'utilisateur depuis le localStorage, ou utilise une valeur par défaut si elle n'existe pas
 console.log('Nom d\'utilisateur récupéré :', username) // Affiche le nom d'utilisateur dans la console pour vérification
 })
-
+const sidebar = ref(null) // Référence au composant ChooseListTitle pour pouvoir appeler ses méthodes
+const goDown = async () => {
+  listStore.creatingList = true
+  await nextTick()
+  sidebar.value.scrollTop = sidebar.value.scrollHeight
+  
+}
 </script>
 <style scoped>
 .list-sidebar {
   position: relative;
- height: 100%;
+  height: 100%;
   min-width: 360px;
   width: 40%;
   background: linear-gradient(rgb(196, 53, 221), var(--color-background) 30%);
