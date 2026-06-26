@@ -5,8 +5,12 @@ import * as listApi from '../api/list.api.js' // Importation de l'API pour les l
 
 export const useListStore = defineStore('list', () => {
     // Variables réactives
-    // Variables pour stocker le titre
     const isDarkMode = ref(false) // Variable pour gérer le mode sombre
+    const updateTheme = () => {
+        isDarkMode.value =
+        document.documentElement.dataset.theme === "dark"
+    }
+    // Variables pour stocker le titre
     const title = ref('')
     // Variable pour stocker le type de liste, initialisée à 'classic'
     const type = ref('classic') 
@@ -181,6 +185,7 @@ export const useListStore = defineStore('list', () => {
     return {
         title,
         isDarkMode,
+        updateTheme,
         type,
         lists,
         creatingList,

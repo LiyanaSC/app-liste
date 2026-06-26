@@ -27,14 +27,13 @@
              <p class="button-text">Créer une nouvelle Liste</p>
            </button>
          </div>
-
-         </div>
+        </div>
 
 
     </nav>
 </template>
 <script setup>
-import plusWhite from '../assets/plus-white.svg'
+
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue' // Import des fonctions Vue nécessaires
 import ChooseListTitle from '../components/buttons/chooseListTitle.vue' // Import du composant de choix de titre de liste
 import ListTitle from '../components/buttons/listTitle.vue' // Import du composant de titre de liste (non utilisé dans ce code, mais peut être utilisé pour afficher les titres des listes existantes)
@@ -45,20 +44,13 @@ import { useListStore } from '../store/listStore.js' // Import du store Pinia po
 const listStore = useListStore() // Utilisation du store pour accéder aux données et fonctions
 
 onMounted(() => { // Exécuté quand le composant est monté
-
-  const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)') // Observe le thème système
-
-  listStore.isDarkMode = mediaQuery.matches // Initialise isDark selon le thème actuel
-
-  const handler = (e) => { // Fonction appelée quand le thème change
-    listStore.isDarkMode = e.matches // Met à jour la valeur en fonction du nouveau thème
-
-  }
-
-  mediaQuery.addEventListener('change', handler) // Écoute les changements du thème système
-
+  listStore.updateTheme()
+  const observer = new MutationObserver(() => {
+      listStore.updateTheme()
+    })
+  observer.observe(document.documentElement,{attributes: true, attributeFilter: ["data-theme"]})
   onUnmounted(() => { // Exécuté quand le composant est détruit
-    mediaQuery.removeEventListener('change', handler) // Supprime l'écouteur pour éviter les fuites mémoire
+      observer.disconnect()
   })
 
 })
@@ -79,7 +71,6 @@ const goDown = async () => {
   listStore.creatingList = true
   await nextTick()
   sidebar.value.scrollTop = sidebar.value.scrollHeight
-  
 }
 </script>
 <style scoped>
