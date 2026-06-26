@@ -96,7 +96,7 @@ h2 {
   margin-bottom: 0;
   font-size: 1.5rem;
   font-weight: bold;
-  color: var(--lither-lavender);
+  color: var(--color-text-BW);
   padding: 1rem;
   border-bottom: 1px solid var(--lavender);
 }
